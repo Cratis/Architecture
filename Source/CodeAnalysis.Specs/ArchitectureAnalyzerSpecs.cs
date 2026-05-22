@@ -91,6 +91,89 @@ class Handler
         Assert.DoesNotContain(diagnostics, _ => _.Id == "CRARCH0018");
     }
 
+    [Fact]
+    public async Task ShouldWarnForAsyncSuffixWithoutSynchronousCounterpart()
+    {
+        const string source = """
+using System.Threading.Tasks;
+
+class Handler
+{
+    public Task ProcessAsync() => Task.CompletedTask;
+}
+""";
+
+        var diagnostics = await Analyze(source);
+
+        Assert.Contains(diagnostics, _ => _.Id == "CRARCH0019");
+    }
+
+    [Fact]
+    public async Task ShouldNotWarnForAsyncSuffixWhenSynchronousCounterpartExists()
+    {
+        const string source = """
+using System.Threading.Tasks;
+
+class Handler
+{
+    public void Process()
+    {
+    }
+
+    public Task ProcessAsync() => Task.CompletedTask;
+}
+""";
+
+        var diagnostics = await Analyze(source);
+
+        Assert.DoesNotContain(diagnostics, _ => _.Id == "CRARCH0019");
+    }
+
+    [Fact]
+    public async Task ShouldWarnForUnhandledAsyncCall()
+    {
+        const string source = """
+using System.Threading.Tasks;
+
+class Handler
+{
+    Task ProcessAsync() => Task.CompletedTask;
+
+    void Execute()
+    {
+        ProcessAsync();
+    }
+}
+""";
+
+        var diagnostics = await Analyze(source);
+
+        Assert.Contains(diagnostics, _ => _.Id == "CRARCH0020");
+    }
+
+    [Fact]
+    public async Task ShouldNotWarnForContinuedAsyncCall()
+    {
+        const string source = """
+using System;
+using System.Threading.Tasks;
+
+class Handler
+{
+    Task ProcessAsync() => Task.CompletedTask;
+
+    void Execute()
+    {
+        ProcessAsync().ContinueWith(_ => Console.WriteLine("done"));
+    }
+}
+""";
+
+        var diagnostics = await Analyze(source);
+
+        Assert.DoesNotContain(diagnostics, _ => _.Id == "CRARCH0020");
+    }
+
     static async Task<IReadOnlyList<Diagnostic>> Analyze(string source)
     {
         var syntaxTree = CSharpSyntaxTree.ParseText(source, path: "/tmp/Source/CodeAnalysis/TestFile.cs");

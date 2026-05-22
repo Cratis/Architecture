@@ -45,11 +45,13 @@ public class ArchitectureAnalyzer : DiagnosticAnalyzer
     static readonly DiagnosticDescriptor Rule0016 = CreateRule("CRARCH0016", "Unused interfaces", "Interface '{0}' has no concrete implementations", "Remove speculative interfaces with no implementations or add a concrete implementation where the abstraction is used.");
     static readonly DiagnosticDescriptor Rule0017 = CreateRule("CRARCH0017", "Namespace must align with folder path", "Namespace '{0}' should align with folder path '{1}'", "Adjust the declared namespace or move the file so namespace segments match the folder structure.");
     static readonly DiagnosticDescriptor Rule0018 = CreateRule("CRARCH0018", "Avoid concrete type injection", "Constructor dependency '{0}' should be an interface abstraction", "Inject interfaces instead of concrete classes. Concrete types marked with [ReadModel] are exempt.");
+    static readonly DiagnosticDescriptor Rule0019 = CreateRule("CRARCH0019", "Avoid Async postfix on method names", "Method '{0}' should not end with 'Async' unless a synchronous '{1}' method also exists", "Rename async methods to omit the Async suffix unless the type also exposes an explicit synchronous method with the same base name.");
+    static readonly DiagnosticDescriptor Rule0020 = CreateRule("CRARCH0020", "Handle asynchronous calls", "Asynchronous call '{0}' must be handled by awaiting it or chaining a continuation", "Do not fire-and-forget asynchronous calls. Await them or chain a continuation.");
 
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics =>
     [
         Rule0001, Rule0002, Rule0003, Rule0004, Rule0005, Rule0006, Rule0007, Rule0008, Rule0009,
-        Rule0010, Rule0011, Rule0012, Rule0013, Rule0014, Rule0015, Rule0016, Rule0017, Rule0018
+        Rule0010, Rule0011, Rule0012, Rule0013, Rule0014, Rule0015, Rule0016, Rule0017, Rule0018, Rule0019, Rule0020
     ];
 
     public override void Initialize(AnalysisContext context)
@@ -363,6 +365,11 @@ public class ArchitectureAnalyzer : DiagnosticAnalyzer
         {
             context.ReportDiagnostic(Diagnostic.Create(Rule0013, invocation.GetLocation()));
         }
+
+        if (ReturnsTaskLike(method.ReturnType) && IsUnhandledAsyncInvocation(invocation, method))
+        {
+            context.ReportDiagnostic(Diagnostic.Create(Rule0020, invocation.GetLocation(), method.Name));
+        }
     }
 
     static void AnalyzeBinaryExpression(SyntaxNodeAnalysisContext context)
@@ -394,17 +401,57 @@ public class ArchitectureAnalyzer : DiagnosticAnalyzer
 
     static void AnalyzeMethodDeclaration(SyntaxNodeAnalysisContext context)
     {
-        if (context.Node is not MethodDeclarationSyntax method || !method.Modifiers.Any(SyntaxKind.AsyncKeyword))
+        if (context.Node is not MethodDeclarationSyntax method)
         {
             return;
         }
 
-        if (method.ReturnType is PredefinedTypeSyntax { Keyword.RawKind: (int)SyntaxKind.VoidKeyword } &&
+        if (method.Modifiers.Any(SyntaxKind.AsyncKeyword) &&
+            method.ReturnType is PredefinedTypeSyntax { Keyword.RawKind: (int)SyntaxKind.VoidKeyword } &&
             !IsTestCode(context.Node.SyntaxTree.FilePath) &&
             !IsEventHandler(context, method))
         {
             context.ReportDiagnostic(Diagnostic.Create(Rule0012, method.Identifier.GetLocation()));
         }
+
+        if (!IsTestCode(context.Node.SyntaxTree.FilePath) &&
+            method.Identifier.ValueText.EndsWith("Async", StringComparison.Ordinal) &&
+            context.SemanticModel.GetDeclaredSymbol(method, context.CancellationToken) is IMethodSymbol methodSymbol)
+        {
+            var baseName = methodSymbol.Name[..^"Async".Length];
+            if (baseName.Length == 0 || !HasSynchronousCounterpart(methodSymbol.ContainingType, baseName))
+            {
+                context.ReportDiagnostic(Diagnostic.Create(Rule0019, method.Identifier.GetLocation(), methodSymbol.Name, baseName));
+            }
+        }
+    }
+
+    static bool HasSynchronousCounterpart(INamedTypeSymbol containingType, string baseName)
+        => containingType.GetMembers(baseName).OfType<IMethodSymbol>().Any(_ => _.MethodKind == MethodKind.Ordinary && !ReturnsTaskLike(_.ReturnType));
+
+    static bool ReturnsTaskLike(ITypeSymbol returnType)
+        => returnType.ToDisplayString() is "System.Threading.Tasks.Task" or "System.Threading.Tasks.ValueTask" ||
+           (returnType is INamedTypeSymbol namedType && namedType.IsGenericType &&
+            (namedType.ConstructedFrom.ToDisplayString() is "System.Threading.Tasks.Task<T>" or "System.Threading.Tasks.ValueTask<T>"));
+
+    static bool IsUnhandledAsyncInvocation(InvocationExpressionSyntax invocation, IMethodSymbol method)
+    {
+        if (method.Name == "ContinueWith")
+        {
+            return false;
+        }
+
+        if (invocation.Parent is AwaitExpressionSyntax or ReturnStatementSyntax or ArrowExpressionClauseSyntax)
+        {
+            return false;
+        }
+
+        if (invocation.Parent is MemberAccessExpressionSyntax { Name.Identifier.Text: "ContinueWith" })
+        {
+            return false;
+        }
+
+        return invocation.Parent is ExpressionStatementSyntax;
     }
 
     static bool IsEventHandler(SyntaxNodeAnalysisContext context, MethodDeclarationSyntax method)
