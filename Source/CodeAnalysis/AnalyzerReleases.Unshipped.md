@@ -27,3 +27,5 @@ CRARCH0019 | Architecture | Warning | Avoid Async postfix on method names
 CRARCH0020 | Architecture | Warning | Handle asynchronous calls
 CRARCH0021 | Architecture | Warning | Serializable attribute not allowed
 CRARCH0022 | Architecture | Warning | Private modifier not allowed
+CRARCH0023 | Architecture | Warning | Use typed logger category
+CRARCH0024 | Architecture | Warning | LoggerMessage container conventions

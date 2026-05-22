@@ -47,15 +47,12 @@ public partial class ArchitectureAnalyzer
             return;
         }
 
-        var filePath = context.Node.SyntaxTree.FilePath ?? string.Empty;
-
         if (method.ContainingType?.SpecialType == SpecialType.System_String && method.Name == "Format")
         {
             context.ReportDiagnostic(Diagnostic.Create(_rule0009, invocation.GetLocation()));
         }
 
-        if (!filePath.EndsWith("Logging.cs", StringComparison.Ordinal) &&
-            method.Name.StartsWith("Log", StringComparison.Ordinal) &&
+        if (method.Name.StartsWith("Log", StringComparison.Ordinal) &&
             (method.ContainingType?.ToDisplayString().Contains("ILogger", StringComparison.Ordinal) == true ||
              method.ContainingNamespace?.ToDisplayString().Contains("Microsoft.Extensions.Logging", StringComparison.Ordinal) == true))
         {

@@ -34,7 +34,7 @@ public partial class ArchitectureAnalyzer : DiagnosticAnalyzer
     private static readonly DiagnosticDescriptor _rule0003 = CreateRule("CRARCH0003", "No postfixes on class names", "Class '{0}' must not end with postfix '{1}'", "Rename classes to domain concepts and remove technical postfixes such as Async, Impl, Manager, Helper, and Service.");
     private static readonly DiagnosticDescriptor _rule0004 = CreateRule("CRARCH0004", "No Features in namespace", "Namespace '{0}' must not contain '.Features.'", "Remove the Features namespace segment and place the type directly in the domain namespace path.");
     private static readonly DiagnosticDescriptor _rule0005 = CreateRule("CRARCH0005", "No regions", "Avoid #region directives", "Refactor large files into smaller types or methods instead of organizing code with #region directives.");
-    private static readonly DiagnosticDescriptor _rule0006 = CreateRule("CRARCH0006", "Logging via LoggerMessage", "Use [LoggerMessage] generated methods instead of direct ILogger.Log* calls", "Move logging calls into co-located partial *Logging.cs files and define strongly typed [LoggerMessage] methods.");
+    private static readonly DiagnosticDescriptor _rule0006 = CreateRule("CRARCH0006", "Logging via LoggerMessage", "Use [LoggerMessage] generated methods instead of direct ILogger.Log* calls", "Define log messages as [LoggerMessage] methods in *LogMessages classes and invoke those methods instead of calling ILogger.Log* directly.");
     private static readonly DiagnosticDescriptor _rule0007 = CreateRule("CRARCH0007", "No IServiceProvider injection", "Do not inject IServiceProvider; inject specific interfaces", "Replace IServiceProvider constructor dependencies with the explicit interfaces required by the type.");
     private static readonly DiagnosticDescriptor _rule0008 = CreateRule("CRARCH0008", "Use is null checks", "Use 'is null'/'is not null' instead of '== null'/'!= null'", "Rewrite null checks using pattern matching syntax: is null and is not null.");
     private static readonly DiagnosticDescriptor _rule0009 = CreateRule("CRARCH0009", "Use string interpolation", "Use string interpolation instead of string.Format or concatenation", "Replace string.Format and string concatenation with interpolated strings ($\"...\") for readability.");
@@ -51,12 +51,14 @@ public partial class ArchitectureAnalyzer : DiagnosticAnalyzer
     private static readonly DiagnosticDescriptor _rule0020 = CreateRule("CRARCH0020", "Handle asynchronous calls", "Asynchronous call '{0}' must be handled by awaiting it or chaining a continuation", "Do not fire-and-forget asynchronous calls. Await them or chain a continuation.");
     private static readonly DiagnosticDescriptor _rule0021 = CreateRule("CRARCH0021", "Serializable attribute not allowed", "Type '{0}' must not be marked with [Serializable]", "Remove [Serializable] from types. The attribute is legacy for binary serialization and AppDomain scenarios and should not be used in Cratis code.");
     private static readonly DiagnosticDescriptor _rule0022 = CreateRule("CRARCH0022", "Private modifier not allowed", "Avoid explicit 'private' modifier", "Remove explicit private modifiers because private is implicit in C#. Keep explicit private only for property setters.");
+    private static readonly DiagnosticDescriptor _rule0023 = CreateRule("CRARCH0023", "Use typed logger category", "Inject ILogger<{0}> instead of '{1}'", "Use ILogger<TContainingType> for constructor injection so log categories map to the concrete type producing the log.");
+    private static readonly DiagnosticDescriptor _rule0024 = CreateRule("CRARCH0024", "LoggerMessage container conventions", "Type '{0}' with [LoggerMessage] methods must be an internal static partial *LogMessages class", "Place [LoggerMessage] methods in an internal static partial class named with the LogMessages suffix.");
 
     /// <inheritdoc/>
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics =>
     [
         _rule0001, _rule0002, _rule0003, _rule0004, _rule0005, _rule0006, _rule0007, _rule0008, _rule0009,
-        _rule0010, _rule0011, _rule0012, _rule0013, _rule0014, _rule0015, _rule0016, _rule0017, _rule0018, _rule0019, _rule0020, _rule0021, _rule0022,
+        _rule0010, _rule0011, _rule0012, _rule0013, _rule0014, _rule0015, _rule0016, _rule0017, _rule0018, _rule0019, _rule0020, _rule0021, _rule0022, _rule0023, _rule0024,
     ];
 
     /// <inheritdoc/>
