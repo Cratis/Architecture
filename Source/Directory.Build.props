@@ -1,0 +1,81 @@
+
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <Import Project="$(MSBuildThisFileDirectory)../Directory.Build.props" />
+
+    <PropertyGroup>
+        <Version>1.0.0</Version>
+        <Copyright>Copyright Cratis</Copyright>
+        <Authors>all contributors</Authors>
+        <DebugType>portable</DebugType>
+        <PackageIcon>logo.png</PackageIcon>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <RepositoryType>git</RepositoryType>
+        <PublishRepositoryUrl>true</PublishRepositoryUrl>
+        <RepositoryUrl>https://github.com/Cratis/Chronicle</RepositoryUrl>
+        <PackageProjectUrl>https://github.com/Cratis/Chronicle</PackageProjectUrl>
+
+        <GenerateAssemblyTitleAttribute>true</GenerateAssemblyTitleAttribute>
+        <GenerateAssemblyDescriptionAttribute>true</GenerateAssemblyDescriptionAttribute>
+
+        <!-- Versioning -->
+        <!-- AssemblyVersion and FileVersion must be numeric (major.minor.patch.revision) -->
+        <!-- InformationalVersion can include SemVer prerelease and metadata -->
+        <InformationalVersion Condition="'$(SourceRevisionId)' != ''">$(Version)+$(SourceRevisionId)</InformationalVersion>
+        <InformationalVersion Condition="'$(SourceRevisionId)' == ''">$(Version)</InformationalVersion>
+
+        <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <IsTestProject>false</IsTestProject>
+
+        <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+        <IsPackable>true</IsPackable>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
+
+        <RuntimeIdentifiers>linux-arm64;linux-x64</RuntimeIdentifiers>
+
+        <NuGetAuditMode>all</NuGetAuditMode>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)'=='Debug'">
+        <Configuration>Debug</Configuration>
+        <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+        <MSBuildTreatWarningsAsErrors>False</MSBuildTreatWarningsAsErrors>
+        <CodeAnalysisTreatWarningsAsErrors>False</CodeAnalysisTreatWarningsAsErrors>
+        <StyleCopTreatErrorsAsWarnings>True</StyleCopTreatErrorsAsWarnings>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)'=='Release'">
+        <Configuration>Release</Configuration>
+        <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+        <MSBuildTreatWarningsAsErrors>True</MSBuildTreatWarningsAsErrors>
+        <CodeAnalysisTreatWarningsAsErrors>True</CodeAnalysisTreatWarningsAsErrors>
+        <StyleCopTreatErrorsAsWarnings>False</StyleCopTreatErrorsAsWarnings>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.SourceLink.GitHub" PrivateAssets="All" />
+        <PackageReference Include="Cratis.Fundamentals" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Include="$(MSBuildThisFileDirectory)/../README.md" Pack="true" PackagePath="/" />
+        <None Include="$(MSBuildThisFileDirectory)/../logo.png" Pack="true" PackagePath="/" />
+        <Compile Include="$(MSBuildThisFileDirectory)/GlobalAssemblyInfo.cs" />
+    </ItemGroup>
+
+    <PropertyGroup Condition="'$(IsTestProject)'=='true'">
+        <IsPackable>false</IsPackable>
+        <TargetFramework>net10.0</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup Condition="'$(IsTestProject)'=='true'">
+        <PackageReference Include="coverlet.collector" />
+        <PackageReference Include="Cratis.Specifications.XUnit" />
+        <PackageReference Include="NSubstitute" />
+        <PackageReference Include="xunit" />
+        <PackageReference Include="xunit.runner.visualstudio" />
+        <PackageReference Include="Microsoft.NET.Test.Sdk" />
+        <Compile Include="$(MSBuildThisFileDirectory)/GlobalUsings.Specs.cs" />
+    </ItemGroup>
+</Project>
