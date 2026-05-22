@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <AssemblyName>Cratis.Architecture.CodeAnalysis.Specs</AssemblyName>
+    <IsTestProject>true</IsTestProject>
+    <TargetFramework>net10.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Remove="System.Text.Json" />
+    <PackageReference Remove="Microsoft.SourceLink.GitHub" />
+    <PackageReference Remove="Cratis.Fundamentals" />
+    <PackageReference Remove="Cratis.Specifications.XUnit" />
+    <ProjectReference Include="../CodeAnalysis/Cratis.Architecture.CodeAnalysis.csproj" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" />
+  </ItemGroup>
+</Project>
