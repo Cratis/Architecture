@@ -1,3 +1,6 @@
+// Copyright (c) Cratis. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System.Collections.Immutable;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CodeActions;
@@ -7,13 +10,19 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Cratis.Architecture.CodeAnalysis;
 
+/// <summary>
+/// Code fixes for supported CRARCH diagnostics.
+/// </summary>
 [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(ArchitectureCodeFixProvider))]
 public class ArchitectureCodeFixProvider : CodeFixProvider
 {
+    /// <inheritdoc/>
     public override ImmutableArray<string> FixableDiagnosticIds => ["CRARCH0008", "CRARCH0009"];
 
+    /// <inheritdoc/>
     public override FixAllProvider GetFixAllProvider() => WellKnownFixAllProviders.BatchFixer;
 
+    /// <inheritdoc/>
     public override async Task RegisterCodeFixesAsync(CodeFixContext context)
     {
         var root = await context.Document.GetSyntaxRootAsync(context.CancellationToken).ConfigureAwait(false);
@@ -50,7 +59,7 @@ public class ArchitectureCodeFixProvider : CodeFixProvider
         }
     }
 
-    static async Task<Document> UsePatternNullCheckAsync(Document document, BinaryExpressionSyntax expression, CancellationToken cancellationToken)
+    private static async Task<Document> UsePatternNullCheckAsync(Document document, BinaryExpressionSyntax expression, CancellationToken cancellationToken)
     {
         var root = await document.GetSyntaxRootAsync(cancellationToken).ConfigureAwait(false);
         if (root is null)
@@ -65,7 +74,7 @@ public class ArchitectureCodeFixProvider : CodeFixProvider
         return document.WithSyntaxRoot(root.ReplaceNode(expression, replacement));
     }
 
-    static async Task<Document> ConvertStringFormatToInterpolationAsync(Document document, InvocationExpressionSyntax invocation, CancellationToken cancellationToken)
+    private static async Task<Document> ConvertStringFormatToInterpolationAsync(Document document, InvocationExpressionSyntax invocation, CancellationToken cancellationToken)
     {
         if (invocation.ArgumentList.Arguments.Count == 0)
         {

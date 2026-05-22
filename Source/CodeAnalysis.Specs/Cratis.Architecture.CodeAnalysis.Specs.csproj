@@ -3,6 +3,9 @@
     <AssemblyName>Cratis.Architecture.CodeAnalysis.Specs</AssemblyName>
     <IsTestProject>true</IsTestProject>
     <TargetFramework>net10.0</TargetFramework>
+    <NoWarn>$(NoWarn);CS1591;SA1600;SA1601;MA0136;MA0006;MA0004;CA2007;CA1859</NoWarn>
+    <RunAnalyzers>false</RunAnalyzers>
+    <RunAnalyzersDuringBuild>false</RunAnalyzersDuringBuild>
   </PropertyGroup>
 
   <ItemGroup>

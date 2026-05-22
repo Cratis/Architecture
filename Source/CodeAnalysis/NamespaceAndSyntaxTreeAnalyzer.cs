@@ -1,3 +1,6 @@
+// Copyright (c) Cratis. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Diagnostics;
@@ -5,9 +8,12 @@ using Microsoft.CodeAnalysis.Text;
 
 namespace Cratis.Architecture.CodeAnalysis;
 
+/// <summary>
+/// Analyzer enforcing Cratis architecture diagnostics.
+/// </summary>
 public partial class ArchitectureAnalyzer
 {
-    static void AnalyzeNamespace(SyntaxNodeAnalysisContext context)
+    private static void AnalyzeNamespace(SyntaxNodeAnalysisContext context)
     {
         var namespaceDeclaration = context.Node switch
         {
@@ -18,11 +24,11 @@ public partial class ArchitectureAnalyzer
 
         if (namespaceDeclaration.Contains(".Features.", StringComparison.Ordinal) || namespaceDeclaration.EndsWith(".Features", StringComparison.Ordinal))
         {
-            context.ReportDiagnostic(Diagnostic.Create(Rule0004, context.Node.GetLocation(), namespaceDeclaration));
+            context.ReportDiagnostic(Diagnostic.Create(_rule0004, context.Node.GetLocation(), namespaceDeclaration));
         }
     }
 
-    static void AnalyzeSyntaxTree(SyntaxTreeAnalysisContext context)
+    private static void AnalyzeSyntaxTree(SyntaxTreeAnalysisContext context)
     {
         var root = context.Tree.GetRoot(context.CancellationToken);
 
@@ -30,7 +36,7 @@ public partial class ArchitectureAnalyzer
         {
             if (trivia.IsDirective && trivia.GetStructure() is RegionDirectiveTriviaSyntax)
             {
-                context.ReportDiagnostic(Diagnostic.Create(Rule0005, trivia.GetLocation()));
+                context.ReportDiagnostic(Diagnostic.Create(_rule0005, trivia.GetLocation()));
             }
         }
 
@@ -38,11 +44,11 @@ public partial class ArchitectureAnalyzer
         var effectiveLines = CountEffectiveLines(text);
         if (effectiveLines > 400)
         {
-            context.ReportDiagnostic(Diagnostic.Create(Rule0011, Location.Create(context.Tree, text.Lines[0].Span), effectiveLines));
+            context.ReportDiagnostic(Diagnostic.Create(_rule0011, Location.Create(context.Tree, text.Lines[0].Span), effectiveLines));
         }
     }
 
-    static int CountEffectiveLines(SourceText text)
+    private static int CountEffectiveLines(SourceText text)
     {
         var count = 0;
         var inBlockComment = false;

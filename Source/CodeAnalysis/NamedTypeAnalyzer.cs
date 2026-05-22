@@ -1,11 +1,17 @@
+// Copyright (c) Cratis. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Diagnostics;
 
 namespace Cratis.Architecture.CodeAnalysis;
 
+/// <summary>
+/// Analyzer enforcing Cratis architecture diagnostics.
+/// </summary>
 public partial class ArchitectureAnalyzer
 {
-    static void AnalyzeNamedType(SymbolAnalysisContext context)
+    private static void AnalyzeNamedType(SymbolAnalysisContext context)
     {
         if (context.Symbol is not INamedTypeSymbol type)
         {
@@ -14,24 +20,24 @@ public partial class ArchitectureAnalyzer
 
         if (type.TypeKind == TypeKind.Class && type.BaseType?.ToDisplayString() == "System.Exception" && type.Name.EndsWith("Exception", StringComparison.Ordinal))
         {
-            context.ReportDiagnostic(Diagnostic.Create(Rule0001, type.Locations.FirstOrDefault(), type.Name));
+            context.ReportDiagnostic(Diagnostic.Create(_rule0001, type.Locations.FirstOrDefault(), type.Name));
         }
 
         if (type.TypeKind == TypeKind.Class)
         {
-            foreach (var suffix in ClassNameSuffixes)
+            foreach (var suffix in _classNameSuffixes)
             {
                 if (type.Name.EndsWith(suffix, StringComparison.Ordinal))
                 {
-                    context.ReportDiagnostic(Diagnostic.Create(Rule0003, type.Locations.FirstOrDefault(), type.Name, suffix));
+                    context.ReportDiagnostic(Diagnostic.Create(_rule0003, type.Locations.FirstOrDefault(), type.Name, suffix));
                     break;
                 }
             }
         }
 
-        if (type.TypeKind == TypeKind.Class && type.IsStatic && !StaticClassNameSuffixes.Any(type.Name.EndsWith))
+        if (type.TypeKind == TypeKind.Class && type.IsStatic && !_staticClassNameSuffixes.Any(type.Name.EndsWith))
         {
-            context.ReportDiagnostic(Diagnostic.Create(Rule0015, type.Locations.FirstOrDefault(), type.Name, string.Join(", ", StaticClassNameSuffixes)));
+            context.ReportDiagnostic(Diagnostic.Create(_rule0015, type.Locations.FirstOrDefault(), type.Name, string.Join(", ", _staticClassNameSuffixes)));
         }
 
         if (type.TypeKind != TypeKind.Class)
@@ -43,19 +49,19 @@ public partial class ArchitectureAnalyzer
         {
             if (constructor.Parameters.Length > 7)
             {
-                context.ReportDiagnostic(Diagnostic.Create(Rule0010, constructor.Locations.FirstOrDefault(), constructor.Parameters.Length));
+                context.ReportDiagnostic(Diagnostic.Create(_rule0010, constructor.Locations.FirstOrDefault(), constructor.Parameters.Length));
             }
 
             foreach (var parameter in constructor.Parameters)
             {
                 if (parameter.Type.ToDisplayString() == "System.IServiceProvider")
                 {
-                    context.ReportDiagnostic(Diagnostic.Create(Rule0007, parameter.Locations.FirstOrDefault()));
+                    context.ReportDiagnostic(Diagnostic.Create(_rule0007, parameter.Locations.FirstOrDefault()));
                 }
 
                 if (ShouldWarnConcreteInjection(parameter.Type))
                 {
-                    context.ReportDiagnostic(Diagnostic.Create(Rule0018, parameter.Locations.FirstOrDefault(), parameter.Name));
+                    context.ReportDiagnostic(Diagnostic.Create(_rule0018, parameter.Locations.FirstOrDefault(), parameter.Name));
                 }
             }
         }
@@ -65,11 +71,11 @@ public partial class ArchitectureAnalyzer
         var folderPath = GetLogicalFolderPath(location?.SourceTree?.FilePath);
         if (namespaceName.Length != 0 && folderPath.Length != 0 && !namespaceName.EndsWith(folderPath, StringComparison.Ordinal) && location is not null)
         {
-            context.ReportDiagnostic(Diagnostic.Create(Rule0017, location, namespaceName, folderPath));
+            context.ReportDiagnostic(Diagnostic.Create(_rule0017, location, namespaceName, folderPath));
         }
     }
 
-    static bool ShouldWarnConcreteInjection(ITypeSymbol type)
+    private static bool ShouldWarnConcreteInjection(ITypeSymbol type)
     {
         if (type is ITypeParameterSymbol)
         {
@@ -109,7 +115,7 @@ public partial class ArchitectureAnalyzer
         return namedType.TypeKind == TypeKind.Class && !namedType.IsAbstract;
     }
 
-    static string GetLogicalFolderPath(string? filePath)
+    private static string GetLogicalFolderPath(string? filePath)
     {
         if (string.IsNullOrWhiteSpace(filePath))
         {
