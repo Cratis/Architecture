@@ -18,6 +18,11 @@ public partial class ArchitectureAnalyzer
             return;
         }
 
+        if (type.GetAttributes().Any(_ => _.AttributeClass?.ToDisplayString() == "System.SerializableAttribute"))
+        {
+            context.ReportDiagnostic(Diagnostic.Create(_rule0021, type.Locations.FirstOrDefault(), type.Name));
+        }
+
         if (type.TypeKind == TypeKind.Class && type.BaseType?.ToDisplayString() == "System.Exception" && type.Name.EndsWith("Exception", StringComparison.Ordinal))
         {
             context.ReportDiagnostic(Diagnostic.Create(_rule0001, type.Locations.FirstOrDefault(), type.Name));

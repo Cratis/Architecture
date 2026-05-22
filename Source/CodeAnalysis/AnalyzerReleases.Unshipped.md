@@ -25,4 +25,5 @@ CRARCH0017 | Architecture | Warning | Namespace must align with folder path
 CRARCH0018 | Architecture | Warning | Avoid concrete type injection
 CRARCH0019 | Architecture | Warning | Avoid Async postfix on method names
 CRARCH0020 | Architecture | Warning | Handle asynchronous calls
-
+CRARCH0021 | Architecture | Warning | Serializable attribute not allowed
+CRARCH0022 | Architecture | Warning | Private modifier not allowed

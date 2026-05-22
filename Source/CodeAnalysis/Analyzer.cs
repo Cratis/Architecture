@@ -49,12 +49,14 @@ public partial class ArchitectureAnalyzer : DiagnosticAnalyzer
     private static readonly DiagnosticDescriptor _rule0018 = CreateRule("CRARCH0018", "Avoid concrete type injection", "Constructor dependency '{0}' should be an interface abstraction", "Inject interfaces instead of concrete classes. Concrete types marked with [ReadModel] are exempt.");
     private static readonly DiagnosticDescriptor _rule0019 = CreateRule("CRARCH0019", "Avoid Async postfix on method names", "Method '{0}' should not end with 'Async' unless a synchronous '{1}' method also exists", "Rename async methods to omit the Async suffix unless the type also exposes an explicit synchronous method with the same base name.");
     private static readonly DiagnosticDescriptor _rule0020 = CreateRule("CRARCH0020", "Handle asynchronous calls", "Asynchronous call '{0}' must be handled by awaiting it or chaining a continuation", "Do not fire-and-forget asynchronous calls. Await them or chain a continuation.");
+    private static readonly DiagnosticDescriptor _rule0021 = CreateRule("CRARCH0021", "Serializable attribute not allowed", "Type '{0}' must not be marked with [Serializable]", "Remove [Serializable] from types. The attribute is legacy for binary serialization and AppDomain scenarios and should not be used in Cratis code.");
+    private static readonly DiagnosticDescriptor _rule0022 = CreateRule("CRARCH0022", "Private modifier not allowed", "Avoid explicit 'private' modifier", "Remove explicit private modifiers because private is implicit in C#. Keep explicit private only for property setters.");
 
     /// <inheritdoc/>
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics =>
     [
         _rule0001, _rule0002, _rule0003, _rule0004, _rule0005, _rule0006, _rule0007, _rule0008, _rule0009,
-        _rule0010, _rule0011, _rule0012, _rule0013, _rule0014, _rule0015, _rule0016, _rule0017, _rule0018, _rule0019, _rule0020,
+        _rule0010, _rule0011, _rule0012, _rule0013, _rule0014, _rule0015, _rule0016, _rule0017, _rule0018, _rule0019, _rule0020, _rule0021, _rule0022,
     ];
 
     /// <inheritdoc/>
@@ -72,6 +74,29 @@ public partial class ArchitectureAnalyzer : DiagnosticAnalyzer
         context.RegisterSyntaxNodeAction(AnalyzeMethodDeclaration, SyntaxKind.MethodDeclaration);
         context.RegisterSyntaxNodeAction(AnalyzeIdentifierTypeUse, SyntaxKind.IdentifierName);
         context.RegisterSyntaxNodeAction(AnalyzeMemberAccess, SyntaxKind.SimpleMemberAccessExpression);
+        context.RegisterSyntaxNodeAction(
+            AnalyzePrivateModifier,
+            SyntaxKind.ClassDeclaration,
+            SyntaxKind.RecordDeclaration,
+            SyntaxKind.StructDeclaration,
+            SyntaxKind.InterfaceDeclaration,
+            SyntaxKind.EnumDeclaration,
+            SyntaxKind.DelegateDeclaration,
+            SyntaxKind.MethodDeclaration,
+            SyntaxKind.PropertyDeclaration,
+            SyntaxKind.EventDeclaration,
+            SyntaxKind.EventFieldDeclaration,
+            SyntaxKind.FieldDeclaration,
+            SyntaxKind.ConstructorDeclaration,
+            SyntaxKind.DestructorDeclaration,
+            SyntaxKind.OperatorDeclaration,
+            SyntaxKind.ConversionOperatorDeclaration,
+            SyntaxKind.IndexerDeclaration,
+            SyntaxKind.GetAccessorDeclaration,
+            SyntaxKind.SetAccessorDeclaration,
+            SyntaxKind.InitAccessorDeclaration,
+            SyntaxKind.AddAccessorDeclaration,
+            SyntaxKind.RemoveAccessorDeclaration);
 
         context.RegisterCompilationStartAction(startContext =>
         {
