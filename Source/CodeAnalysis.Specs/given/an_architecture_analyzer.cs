@@ -63,7 +63,12 @@ public class an_architecture_analyzer : Specification
             return source;
         }
 
-        var provider = new ArchitectureCodeFixProvider();
+        CodeFixProvider provider = diagnosticId switch
+        {
+            "CRARCH0008" => new UseIsNullChecksCodeFix(),
+            "CRARCH0009" => new UseStringInterpolationCodeFix(),
+            _ => throw new InvalidOperationException($"No code fix provider configured for {diagnosticId}."),
+        };
         var actions = new List<CodeAction>();
 
         var context = new CodeFixContext(
