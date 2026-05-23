@@ -14,5 +14,6 @@
     <PackageReference Remove="Cratis.Fundamentals" />
     <ProjectReference Include="../CodeAnalysis/Cratis.Architecture.CodeAnalysis.csproj" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" />
   </ItemGroup>
 </Project>
