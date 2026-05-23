@@ -29,3 +29,5 @@ CRARCH0021 | Architecture | Warning | Serializable attribute not allowed
 CRARCH0022 | Architecture | Warning | Private modifier not allowed
 CRARCH0023 | Architecture | Warning | Use typed logger category
 CRARCH0024 | Architecture | Warning | LoggerMessage container conventions
+CRARCH0025 | Architecture | Warning | Use Cratis Fundamentals traces
+CRARCH0026 | Architecture | Warning | Use Cratis Fundamentals metrics

@@ -53,12 +53,14 @@ public partial class ArchitectureAnalyzer : DiagnosticAnalyzer
     private static readonly DiagnosticDescriptor _rule0022 = CreateRule("CRARCH0022", "Private modifier not allowed", "Avoid explicit 'private' modifier", "Remove explicit private modifiers because private is implicit in C#. Keep explicit private only for property setters.");
     private static readonly DiagnosticDescriptor _rule0023 = CreateRule("CRARCH0023", "Use typed logger category", "Inject ILogger<{0}> instead of '{1}'", "Use ILogger<TContainingType> for constructor injection so log categories map to the concrete type producing the log.");
     private static readonly DiagnosticDescriptor _rule0024 = CreateRule("CRARCH0024", "LoggerMessage container conventions", "Type '{0}' with [LoggerMessage] methods must be an internal static partial *LogMessages class", "Place [LoggerMessage] methods in an internal static partial class named with the LogMessages suffix.");
+    private static readonly DiagnosticDescriptor _rule0025 = CreateRule("CRARCH0025", "Use Cratis Fundamentals traces", "Avoid direct ActivitySource.StartActivity usage", "Use Cratis Fundamentals trace abstractions (IActivitySource<T>, IActivityScope<T>) and [Span]-generated methods instead of calling ActivitySource.StartActivity directly.");
+    private static readonly DiagnosticDescriptor _rule0026 = CreateRule("CRARCH0026", "Use Cratis Fundamentals metrics", "Avoid direct Meter.{0} usage", "Use Cratis Fundamentals metrics abstractions (IMeter<T>, IMeterScope<T>) and [Counter]/[Gauge] generated methods instead of creating Meter instruments directly.");
 
     /// <inheritdoc/>
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics =>
     [
         _rule0001, _rule0002, _rule0003, _rule0004, _rule0005, _rule0006, _rule0007, _rule0008, _rule0009,
-        _rule0010, _rule0011, _rule0012, _rule0013, _rule0014, _rule0015, _rule0016, _rule0017, _rule0018, _rule0019, _rule0020, _rule0021, _rule0022, _rule0023, _rule0024,
+        _rule0010, _rule0011, _rule0012, _rule0013, _rule0014, _rule0015, _rule0016, _rule0017, _rule0018, _rule0019, _rule0020, _rule0021, _rule0022, _rule0023, _rule0024, _rule0025, _rule0026,
     ];
 
     /// <inheritdoc/>

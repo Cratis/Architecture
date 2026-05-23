@@ -73,6 +73,18 @@ public partial class ArchitectureAnalyzer
             context.ReportDiagnostic(Diagnostic.Create(_rule0013, invocation.GetLocation()));
         }
 
+        if (method.Name == "StartActivity" &&
+            method.ContainingType?.ToDisplayString() == "System.Diagnostics.ActivitySource")
+        {
+            context.ReportDiagnostic(Diagnostic.Create(_rule0025, invocation.GetLocation()));
+        }
+
+        if (method.Name.StartsWith("Create", StringComparison.Ordinal) &&
+            method.ContainingType?.ToDisplayString() == "System.Diagnostics.Metrics.Meter")
+        {
+            context.ReportDiagnostic(Diagnostic.Create(_rule0026, invocation.GetLocation(), method.Name));
+        }
+
         if (ReturnsTaskLike(method.ReturnType) && IsUnhandledAsyncInvocation(invocation, method))
         {
             context.ReportDiagnostic(Diagnostic.Create(_rule0020, invocation.GetLocation(), method.Name));
