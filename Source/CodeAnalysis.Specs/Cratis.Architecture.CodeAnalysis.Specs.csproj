@@ -12,7 +12,6 @@
     <PackageReference Remove="System.Text.Json" />
     <PackageReference Remove="Microsoft.SourceLink.GitHub" />
     <PackageReference Remove="Cratis.Fundamentals" />
-    <PackageReference Remove="Cratis.Specifications.XUnit" />
     <ProjectReference Include="../CodeAnalysis/Cratis.Architecture.CodeAnalysis.csproj" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" />
   </ItemGroup>

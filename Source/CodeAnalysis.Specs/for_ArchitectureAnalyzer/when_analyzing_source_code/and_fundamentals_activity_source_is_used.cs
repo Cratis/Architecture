@@ -1,14 +1,15 @@
 // Copyright (c) Cratis. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-namespace Cratis.Architecture.CodeAnalysis.Specs;
+using given = Cratis.Architecture.CodeAnalysis.Specs.for_ArchitectureAnalyzer.given;
 
-public partial class ArchitectureAnalyzerSpecs
+namespace Cratis.Architecture.CodeAnalysis.Specs.for_ArchitectureAnalyzer.when_analyzing_source_code;
+
+public class and_fundamentals_activity_source_is_used : given.an_architecture_analyzer
 {
-    [Fact]
-    public async Task ShouldNotWarnWhenUsingFundamentalsActivitySourceAbstractions()
-    {
-        const string source = """
+    async Task Because() =>
+        _diagnostics = await analyze(
+            """
 namespace Cratis.Traces
 {
     public interface IActivitySource<T>
@@ -40,10 +41,8 @@ class Handler
         using var scope = _source.Process();
     }
 }
-""";
+""");
 
-        var diagnostics = await Analyze(source);
-
-        Assert.DoesNotContain(diagnostics, _ => _.Id == "CRARCH0025");
-    }
+    [Fact] void should_match_expected_diagnostic_result() =>
+        _diagnostics.Any(_ => _.Id == "CRARCH0025").ShouldBeFalse();
 }

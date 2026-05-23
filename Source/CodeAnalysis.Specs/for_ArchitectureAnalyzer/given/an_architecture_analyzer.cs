@@ -1,21 +1,24 @@
 // Copyright (c) Cratis. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+using Cratis.Specifications;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Diagnostics;
 
-namespace Cratis.Architecture.CodeAnalysis.Specs;
+namespace Cratis.Architecture.CodeAnalysis.Specs.for_ArchitectureAnalyzer.given;
 
-public partial class ArchitectureAnalyzerSpecs
+public class an_architecture_analyzer : Specification
 {
-    private static async Task<IReadOnlyList<Diagnostic>> Analyze(string source)
+    protected IReadOnlyList<Diagnostic> _diagnostics = [];
+
+    protected static async Task<IReadOnlyList<Diagnostic>> analyze(string source)
     {
         var syntaxTree = CSharpSyntaxTree.ParseText(source, path: "/tmp/Source/CodeAnalysis/TestFile.cs");
         var compilation = CSharpCompilation.Create(
             assemblyName: "AnalyzerTests",
             syntaxTrees: [syntaxTree],
-            references: GetMetadataReferences(),
+            references: get_metadata_references(),
             options: new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
 
         var analyzer = new ArchitectureAnalyzer();
@@ -23,7 +26,7 @@ public partial class ArchitectureAnalyzerSpecs
         return diagnostics;
     }
 
-    private static IReadOnlyList<MetadataReference> GetMetadataReferences()
+    static IReadOnlyList<MetadataReference> get_metadata_references()
     {
         var trustedAssemblies = (AppContext.GetData("TRUSTED_PLATFORM_ASSEMBLIES") as string)?.Split(Path.PathSeparator)
                                ?? [];
