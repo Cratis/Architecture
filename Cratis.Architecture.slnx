@@ -1,0 +1,9 @@
+<Solution>
+  <Folder Name="/Source/" />
+  <Folder Name="/Source/CodeAnalysis.Specs/">
+    <Project Path="Source/CodeAnalysis.Specs/Cratis.Architecture.CodeAnalysis.Specs.csproj" />
+  </Folder>
+  <Folder Name="/Source/CodeAnalysis/">
+    <Project Path="Source/CodeAnalysis/Cratis.Architecture.CodeAnalysis.csproj" />
+  </Folder>
+</Solution>
