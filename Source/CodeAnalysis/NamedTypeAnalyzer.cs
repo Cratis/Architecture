@@ -130,7 +130,7 @@ public partial class ArchitectureAnalyzer
             return false;
         }
 
-        if (namedType.GetAttributes().Any(_ => _.AttributeClass?.Name is "ReadModelAttribute" or "ReadModel"))
+        if (namedType.GetAttributes().Any(IsCratisArcReadModelAttribute))
         {
             return false;
         }
@@ -172,6 +172,9 @@ public partial class ArchitectureAnalyzer
     static bool IsLoggerMessageAttribute(AttributeData attribute)
         => attribute.AttributeClass?.ToDisplayString() == "Microsoft.Extensions.Logging.LoggerMessageAttribute" ||
            attribute.AttributeClass?.Name is "LoggerMessageAttribute" or "LoggerMessage";
+
+    static bool IsCratisArcReadModelAttribute(AttributeData attribute)
+        => attribute.AttributeClass?.ToDisplayString() == "Cratis.Arc.Queries.ModelBound.ReadModelAttribute";
 
     static bool IsPartialType(INamedTypeSymbol type)
         => type.DeclaringSyntaxReferences
