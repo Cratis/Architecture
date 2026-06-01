@@ -13,7 +13,7 @@ namespace Cratis.Architecture.CodeAnalysis;
 /// </summary>
 public partial class ArchitectureAnalyzer
 {
-    private static void AnalyzeThrow(SyntaxNodeAnalysisContext context)
+    static void AnalyzeThrow(SyntaxNodeAnalysisContext context)
     {
         ExpressionSyntax? expression = context.Node switch
         {
@@ -35,7 +35,7 @@ public partial class ArchitectureAnalyzer
         }
     }
 
-    private static void AnalyzeInvocation(SyntaxNodeAnalysisContext context)
+    static void AnalyzeInvocation(SyntaxNodeAnalysisContext context)
     {
         if (context.Node is not InvocationExpressionSyntax invocation)
         {
@@ -91,7 +91,7 @@ public partial class ArchitectureAnalyzer
         }
     }
 
-    private static void AnalyzeBinaryExpression(SyntaxNodeAnalysisContext context)
+    static void AnalyzeBinaryExpression(SyntaxNodeAnalysisContext context)
     {
         if (context.Node is not BinaryExpressionSyntax expression)
         {
@@ -118,12 +118,12 @@ public partial class ArchitectureAnalyzer
         }
     }
 
-    private static bool ReturnsTaskLike(ITypeSymbol returnType)
+    static bool ReturnsTaskLike(ITypeSymbol returnType)
         => returnType.ToDisplayString() is "System.Threading.Tasks.Task" or "System.Threading.Tasks.ValueTask" ||
            (returnType is INamedTypeSymbol namedType && namedType.IsGenericType &&
             (namedType.ConstructedFrom.ToDisplayString() is "System.Threading.Tasks.Task<T>" or "System.Threading.Tasks.ValueTask<T>"));
 
-    private static bool IsUnhandledAsyncInvocation(InvocationExpressionSyntax invocation, IMethodSymbol method)
+    static bool IsUnhandledAsyncInvocation(InvocationExpressionSyntax invocation, IMethodSymbol method)
     {
         if (method.Name == "ContinueWith")
         {

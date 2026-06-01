@@ -48,7 +48,7 @@ public class UseStringInterpolationCodeFix : CodeFixProvider
         }
     }
 
-    private static async Task<Document> ConvertStringFormatToInterpolationAsync(Document document, InvocationExpressionSyntax invocation, CancellationToken cancellationToken)
+    static async Task<Document> ConvertStringFormatToInterpolationAsync(Document document, InvocationExpressionSyntax invocation, CancellationToken cancellationToken)
     {
         if (invocation.ArgumentList.Arguments.Count == 0)
         {

@@ -13,7 +13,7 @@ namespace Cratis.Architecture.CodeAnalysis;
 /// </summary>
 public partial class ArchitectureAnalyzer
 {
-    private static void AnalyzePrivateModifier(SyntaxNodeAnalysisContext context)
+    static void AnalyzePrivateModifier(SyntaxNodeAnalysisContext context)
     {
         if (context.Node is AccessorDeclarationSyntax accessor)
         {
@@ -39,7 +39,7 @@ public partial class ArchitectureAnalyzer
         }
     }
 
-    private static bool IsAllowedPrivatePropertySetter(AccessorDeclarationSyntax accessor)
+    static bool IsAllowedPrivatePropertySetter(AccessorDeclarationSyntax accessor)
     {
         if (!accessor.IsKind(SyntaxKind.SetAccessorDeclaration) && !accessor.IsKind(SyntaxKind.InitAccessorDeclaration))
         {

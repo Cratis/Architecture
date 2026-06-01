@@ -13,7 +13,7 @@ namespace Cratis.Architecture.CodeAnalysis;
 /// </summary>
 public partial class ArchitectureAnalyzer
 {
-    private static void AnalyzeMethodDeclaration(SyntaxNodeAnalysisContext context)
+    static void AnalyzeMethodDeclaration(SyntaxNodeAnalysisContext context)
     {
         if (context.Node is not MethodDeclarationSyntax method)
         {
@@ -40,10 +40,10 @@ public partial class ArchitectureAnalyzer
         }
     }
 
-    private static bool HasSynchronousCounterpart(INamedTypeSymbol containingType, string baseName)
+    static bool HasSynchronousCounterpart(INamedTypeSymbol containingType, string baseName)
         => containingType.GetMembers(baseName).OfType<IMethodSymbol>().Any(_ => _.MethodKind == MethodKind.Ordinary && !ReturnsTaskLike(_.ReturnType));
 
-    private static bool IsEventHandler(SyntaxNodeAnalysisContext context, MethodDeclarationSyntax method)
+    static bool IsEventHandler(SyntaxNodeAnalysisContext context, MethodDeclarationSyntax method)
     {
         if (method.ParameterList.Parameters.Count != 2)
         {
@@ -78,7 +78,7 @@ public partial class ArchitectureAnalyzer
         return false;
     }
 
-    private static void AnalyzeIdentifierTypeUse(SyntaxNodeAnalysisContext context)
+    static void AnalyzeIdentifierTypeUse(SyntaxNodeAnalysisContext context)
     {
         if (IsTestCode(context.Node.SyntaxTree.FilePath))
         {
@@ -97,7 +97,7 @@ public partial class ArchitectureAnalyzer
         }
     }
 
-    private static void AnalyzeMemberAccess(SyntaxNodeAnalysisContext context)
+    static void AnalyzeMemberAccess(SyntaxNodeAnalysisContext context)
     {
         if (context.Node is not MemberAccessExpressionSyntax { Name.Identifier.Text: "Result" } memberAccess)
         {
@@ -111,7 +111,7 @@ public partial class ArchitectureAnalyzer
         }
     }
 
-    private static bool IsTestCode(string? filePath)
+    static bool IsTestCode(string? filePath)
     {
         if (string.IsNullOrWhiteSpace(filePath))
         {

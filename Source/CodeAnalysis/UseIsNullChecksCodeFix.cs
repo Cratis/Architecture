@@ -46,7 +46,7 @@ public class UseIsNullChecksCodeFix : CodeFixProvider
         }
     }
 
-    private static async Task<Document> UsePatternNullCheckAsync(Document document, BinaryExpressionSyntax expression, CancellationToken cancellationToken)
+    static async Task<Document> UsePatternNullCheckAsync(Document document, BinaryExpressionSyntax expression, CancellationToken cancellationToken)
     {
         var root = await document.GetSyntaxRootAsync(cancellationToken).ConfigureAwait(false);
         if (root is null)

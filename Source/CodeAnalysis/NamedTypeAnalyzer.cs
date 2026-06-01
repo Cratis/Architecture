@@ -13,7 +13,7 @@ namespace Cratis.Architecture.CodeAnalysis;
 /// </summary>
 public partial class ArchitectureAnalyzer
 {
-    private static void AnalyzeNamedType(SymbolAnalysisContext context)
+    static void AnalyzeNamedType(SymbolAnalysisContext context)
     {
         if (context.Symbol is not INamedTypeSymbol type)
         {
@@ -103,7 +103,7 @@ public partial class ArchitectureAnalyzer
         }
     }
 
-    private static bool ShouldWarnConcreteInjection(ITypeSymbol type)
+    static bool ShouldWarnConcreteInjection(ITypeSymbol type)
     {
         if (type is ITypeParameterSymbol)
         {
@@ -143,10 +143,10 @@ public partial class ArchitectureAnalyzer
         return namedType.TypeKind == TypeKind.Class && !namedType.IsAbstract;
     }
 
-    private static bool IsNonGenericLogger(ITypeSymbol type)
+    static bool IsNonGenericLogger(ITypeSymbol type)
         => type.ToDisplayString() == "Microsoft.Extensions.Logging.ILogger";
 
-    private static bool TryGetLoggerCategory(ITypeSymbol type, out ITypeSymbol? categoryType)
+    static bool TryGetLoggerCategory(ITypeSymbol type, out ITypeSymbol? categoryType)
     {
         categoryType = null;
 
@@ -164,22 +164,22 @@ public partial class ArchitectureAnalyzer
         return true;
     }
 
-    private static bool HasLoggerMessageMethods(INamedTypeSymbol type)
+    static bool HasLoggerMessageMethods(INamedTypeSymbol type)
         => type.GetMembers()
                .OfType<IMethodSymbol>()
                .Any(_ => _.GetAttributes().Any(IsLoggerMessageAttribute));
 
-    private static bool IsLoggerMessageAttribute(AttributeData attribute)
+    static bool IsLoggerMessageAttribute(AttributeData attribute)
         => attribute.AttributeClass?.ToDisplayString() == "Microsoft.Extensions.Logging.LoggerMessageAttribute" ||
            attribute.AttributeClass?.Name is "LoggerMessageAttribute" or "LoggerMessage";
 
-    private static bool IsPartialType(INamedTypeSymbol type)
+    static bool IsPartialType(INamedTypeSymbol type)
         => type.DeclaringSyntaxReferences
                .Select(_ => _.GetSyntax())
                .OfType<TypeDeclarationSyntax>()
                .All(_ => _.Modifiers.Any(m => m.IsKind(SyntaxKind.PartialKeyword)));
 
-    private static string GetLogicalFolderPath(string? filePath)
+    static string GetLogicalFolderPath(string? filePath)
     {
         if (string.IsNullOrWhiteSpace(filePath))
         {

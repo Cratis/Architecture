@@ -13,7 +13,7 @@ namespace Cratis.Architecture.CodeAnalysis;
 /// </summary>
 public partial class ArchitectureAnalyzer
 {
-    private static void AnalyzeNamespace(SyntaxNodeAnalysisContext context)
+    static void AnalyzeNamespace(SyntaxNodeAnalysisContext context)
     {
         var namespaceDeclaration = context.Node switch
         {
@@ -28,7 +28,7 @@ public partial class ArchitectureAnalyzer
         }
     }
 
-    private static void AnalyzeSyntaxTree(SyntaxTreeAnalysisContext context)
+    static void AnalyzeSyntaxTree(SyntaxTreeAnalysisContext context)
     {
         var root = context.Tree.GetRoot(context.CancellationToken);
 
@@ -48,7 +48,7 @@ public partial class ArchitectureAnalyzer
         }
     }
 
-    private static int CountEffectiveLines(SourceText text)
+    static int CountEffectiveLines(SourceText text)
     {
         var count = 0;
         var inBlockComment = false;
