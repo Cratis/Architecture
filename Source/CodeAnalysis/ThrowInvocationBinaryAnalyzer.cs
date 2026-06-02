@@ -6,6 +6,8 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Diagnostics;
 
+using Cratis.Architecture.CodeAnalysis.Rules;
+
 namespace Cratis.Architecture.CodeAnalysis;
 
 /// <summary>
@@ -31,7 +33,7 @@ public partial class ArchitectureAnalyzer
         var typeName = type?.ToDisplayString();
         if (typeName is not null && _builtInExceptions.Contains(typeName))
         {
-            context.ReportDiagnostic(Diagnostic.Create(_rule0002, expression.GetLocation(), type!.Name));
+            context.ReportDiagnostic(Diagnostic.Create(NoBuiltInExceptionTypesRule.Descriptor, expression.GetLocation(), type!.Name));
         }
     }
 
@@ -49,19 +51,19 @@ public partial class ArchitectureAnalyzer
 
         if (method.ContainingType?.SpecialType == SpecialType.System_String && method.Name == "Format")
         {
-            context.ReportDiagnostic(Diagnostic.Create(_rule0009, invocation.GetLocation()));
+            context.ReportDiagnostic(Diagnostic.Create(UseStringInterpolationRule.Descriptor, invocation.GetLocation()));
         }
 
         if (method.Name.StartsWith("Log", StringComparison.Ordinal) &&
             (method.ContainingType?.ToDisplayString().Contains("ILogger", StringComparison.Ordinal) == true ||
              method.ContainingNamespace?.ToDisplayString().Contains("Microsoft.Extensions.Logging", StringComparison.Ordinal) == true))
         {
-            context.ReportDiagnostic(Diagnostic.Create(_rule0006, invocation.GetLocation()));
+            context.ReportDiagnostic(Diagnostic.Create(LoggingViaLoggerMessageRule.Descriptor, invocation.GetLocation()));
         }
 
         if (method.Name == "Wait" && method.Parameters.Length == 0)
         {
-            context.ReportDiagnostic(Diagnostic.Create(_rule0013, invocation.GetLocation()));
+            context.ReportDiagnostic(Diagnostic.Create(NoBlockingOnAsyncRule.Descriptor, invocation.GetLocation()));
         }
 
         if (method.Name == "GetResult" &&
@@ -70,24 +72,24 @@ public partial class ArchitectureAnalyzer
             context.SemanticModel.GetSymbolInfo(awaiterInvocation, context.CancellationToken).Symbol is IMethodSymbol awaiterMethod &&
             awaiterMethod.Name == "GetAwaiter")
         {
-            context.ReportDiagnostic(Diagnostic.Create(_rule0013, invocation.GetLocation()));
+            context.ReportDiagnostic(Diagnostic.Create(NoBlockingOnAsyncRule.Descriptor, invocation.GetLocation()));
         }
 
         if (method.Name == "StartActivity" &&
             method.ContainingType?.ToDisplayString() == "System.Diagnostics.ActivitySource")
         {
-            context.ReportDiagnostic(Diagnostic.Create(_rule0025, invocation.GetLocation()));
+            context.ReportDiagnostic(Diagnostic.Create(UseCratisFundamentalsTracesRule.Descriptor, invocation.GetLocation()));
         }
 
         if (method.Name.StartsWith("Create", StringComparison.Ordinal) &&
             method.ContainingType?.ToDisplayString() == "System.Diagnostics.Metrics.Meter")
         {
-            context.ReportDiagnostic(Diagnostic.Create(_rule0026, invocation.GetLocation(), method.Name));
+            context.ReportDiagnostic(Diagnostic.Create(UseCratisFundamentalsMetricsRule.Descriptor, invocation.GetLocation(), method.Name));
         }
 
         if (ReturnsTaskLike(method.ReturnType) && IsUnhandledAsyncInvocation(invocation, method))
         {
-            context.ReportDiagnostic(Diagnostic.Create(_rule0020, invocation.GetLocation(), method.Name));
+            context.ReportDiagnostic(Diagnostic.Create(HandleAsynchronousCallsRule.Descriptor, invocation.GetLocation(), method.Name));
         }
     }
 
@@ -102,7 +104,7 @@ public partial class ArchitectureAnalyzer
         {
             if (expression.Left.IsKind(SyntaxKind.NullLiteralExpression) || expression.Right.IsKind(SyntaxKind.NullLiteralExpression))
             {
-                context.ReportDiagnostic(Diagnostic.Create(_rule0008, expression.GetLocation()));
+                context.ReportDiagnostic(Diagnostic.Create(UseIsNullChecksRule.Descriptor, expression.GetLocation()));
             }
 
             return;
@@ -113,7 +115,7 @@ public partial class ArchitectureAnalyzer
             var type = context.SemanticModel.GetTypeInfo(expression, context.CancellationToken).Type;
             if (type?.SpecialType == SpecialType.System_String)
             {
-                context.ReportDiagnostic(Diagnostic.Create(_rule0009, expression.GetLocation()));
+                context.ReportDiagnostic(Diagnostic.Create(UseStringInterpolationRule.Descriptor, expression.GetLocation()));
             }
         }
     }

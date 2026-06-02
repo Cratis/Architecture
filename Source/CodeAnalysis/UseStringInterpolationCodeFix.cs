@@ -8,6 +8,8 @@ using Microsoft.CodeAnalysis.CodeFixes;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
+using Cratis.Architecture.CodeAnalysis.Rules;
+
 namespace Cratis.Architecture.CodeAnalysis;
 
 /// <summary>
@@ -17,7 +19,7 @@ namespace Cratis.Architecture.CodeAnalysis;
 public class UseStringInterpolationCodeFix : CodeFixProvider
 {
     /// <inheritdoc/>
-    public override ImmutableArray<string> FixableDiagnosticIds => ["CRARCH0009"];
+    public override ImmutableArray<string> FixableDiagnosticIds => [UseStringInterpolationRule.Id];
 
     /// <inheritdoc/>
     public override FixAllProvider GetFixAllProvider() => WellKnownFixAllProviders.BatchFixer;
@@ -34,7 +36,7 @@ public class UseStringInterpolationCodeFix : CodeFixProvider
         foreach (var diagnostic in context.Diagnostics)
         {
             var node = root.FindNode(diagnostic.Location.SourceSpan);
-            if (diagnostic.Id == "CRARCH0009" &&
+            if (diagnostic.Id == UseStringInterpolationRule.Id &&
                 node is InvocationExpressionSyntax invocation &&
                 invocation.Expression is MemberAccessExpressionSyntax { Name.Identifier.Text: "Format" })
             {

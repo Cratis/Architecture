@@ -6,6 +6,8 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.CodeAnalysis.Text;
 
+using Cratis.Architecture.CodeAnalysis.Rules;
+
 namespace Cratis.Architecture.CodeAnalysis;
 
 /// <summary>
@@ -24,7 +26,7 @@ public partial class ArchitectureAnalyzer
 
         if (namespaceDeclaration.Contains(".Features.", StringComparison.Ordinal) || namespaceDeclaration.EndsWith(".Features", StringComparison.Ordinal))
         {
-            context.ReportDiagnostic(Diagnostic.Create(_rule0004, context.Node.GetLocation(), namespaceDeclaration));
+            context.ReportDiagnostic(Diagnostic.Create(NoFeaturesInNamespaceRule.Descriptor, context.Node.GetLocation(), namespaceDeclaration));
         }
     }
 
@@ -36,7 +38,7 @@ public partial class ArchitectureAnalyzer
         {
             if (trivia.IsDirective && trivia.GetStructure() is RegionDirectiveTriviaSyntax)
             {
-                context.ReportDiagnostic(Diagnostic.Create(_rule0005, trivia.GetLocation()));
+                context.ReportDiagnostic(Diagnostic.Create(NoRegionsRule.Descriptor, trivia.GetLocation()));
             }
         }
 
@@ -44,7 +46,7 @@ public partial class ArchitectureAnalyzer
         var effectiveLines = CountEffectiveLines(text);
         if (effectiveLines > 400)
         {
-            context.ReportDiagnostic(Diagnostic.Create(_rule0011, Location.Create(context.Tree, text.Lines[0].Span), effectiveLines));
+            context.ReportDiagnostic(Diagnostic.Create(FileLengthThresholdRule.Descriptor, Location.Create(context.Tree, text.Lines[0].Span), effectiveLines));
         }
     }
 

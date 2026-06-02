@@ -6,6 +6,8 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Diagnostics;
 
+using Cratis.Architecture.CodeAnalysis.Rules;
+
 namespace Cratis.Architecture.CodeAnalysis;
 
 /// <summary>
@@ -25,7 +27,7 @@ public partial class ArchitectureAnalyzer
             !IsTestCode(context.Node.SyntaxTree.FilePath) &&
             !IsEventHandler(context, method))
         {
-            context.ReportDiagnostic(Diagnostic.Create(_rule0012, method.Identifier.GetLocation()));
+            context.ReportDiagnostic(Diagnostic.Create(AsyncVoidForbiddenRule.Descriptor, method.Identifier.GetLocation()));
         }
 
         if (!IsTestCode(context.Node.SyntaxTree.FilePath) &&
@@ -35,7 +37,7 @@ public partial class ArchitectureAnalyzer
             var baseName = methodSymbol.Name[..^"Async".Length];
             if (baseName.Length == 0 || !HasSynchronousCounterpart(methodSymbol.ContainingType, baseName))
             {
-                context.ReportDiagnostic(Diagnostic.Create(_rule0019, method.Identifier.GetLocation(), methodSymbol.Name, baseName));
+                context.ReportDiagnostic(Diagnostic.Create(AvoidAsyncPostfixOnMethodNamesRule.Descriptor, method.Identifier.GetLocation(), methodSymbol.Name, baseName));
             }
         }
     }
@@ -93,7 +95,7 @@ public partial class ArchitectureAnalyzer
         var namespaceName = symbol.ContainingNamespace?.ToDisplayString() ?? string.Empty;
         if (namespaceName.Contains(".Specs", StringComparison.Ordinal) || namespaceName.Contains(".Testing", StringComparison.Ordinal))
         {
-            context.ReportDiagnostic(Diagnostic.Create(_rule0014, context.Node.GetLocation(), symbol.ToDisplayString()));
+            context.ReportDiagnostic(Diagnostic.Create(NoTestTypesInProductionRule.Descriptor, context.Node.GetLocation(), symbol.ToDisplayString()));
         }
     }
 
@@ -107,7 +109,7 @@ public partial class ArchitectureAnalyzer
         var expressionType = context.SemanticModel.GetTypeInfo(memberAccess.Expression, context.CancellationToken).Type;
         if (expressionType?.ToDisplayString().StartsWith("System.Threading.Tasks.Task", StringComparison.Ordinal) == true)
         {
-            context.ReportDiagnostic(Diagnostic.Create(_rule0013, memberAccess.GetLocation()));
+            context.ReportDiagnostic(Diagnostic.Create(NoBlockingOnAsyncRule.Descriptor, memberAccess.GetLocation()));
         }
     }
 

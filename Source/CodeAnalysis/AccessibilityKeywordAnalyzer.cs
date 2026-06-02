@@ -6,6 +6,8 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Diagnostics;
 
+using Cratis.Architecture.CodeAnalysis.Rules;
+
 namespace Cratis.Architecture.CodeAnalysis;
 
 /// <summary>
@@ -23,7 +25,7 @@ public partial class ArchitectureAnalyzer
                 return;
             }
 
-            context.ReportDiagnostic(Diagnostic.Create(_rule0022, privateModifier.GetLocation()));
+            context.ReportDiagnostic(Diagnostic.Create(PrivateModifierNotAllowedRule.Descriptor, privateModifier.GetLocation()));
             return;
         }
 
@@ -35,7 +37,7 @@ public partial class ArchitectureAnalyzer
         var privateKeyword = member.Modifiers.FirstOrDefault(_ => _.IsKind(SyntaxKind.PrivateKeyword));
         if (privateKeyword != default)
         {
-            context.ReportDiagnostic(Diagnostic.Create(_rule0022, privateKeyword.GetLocation()));
+            context.ReportDiagnostic(Diagnostic.Create(PrivateModifierNotAllowedRule.Descriptor, privateKeyword.GetLocation()));
         }
     }
 

@@ -6,6 +6,8 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Diagnostics;
 
+using Cratis.Architecture.CodeAnalysis.Rules;
+
 namespace Cratis.Architecture.CodeAnalysis;
 
 /// <summary>
@@ -22,7 +24,7 @@ public partial class ArchitectureAnalyzer
 
         if (type.GetAttributes().Any(_ => _.AttributeClass?.ToDisplayString() == "System.SerializableAttribute"))
         {
-            context.ReportDiagnostic(Diagnostic.Create(_rule0021, type.Locations.FirstOrDefault(), type.Name));
+            context.ReportDiagnostic(Diagnostic.Create(SerializableAttributeNotAllowedRule.Descriptor, type.Locations.FirstOrDefault(), type.Name));
         }
 
         if (HasLoggerMessageMethods(type) &&
@@ -31,12 +33,12 @@ public partial class ArchitectureAnalyzer
              type.DeclaredAccessibility != Accessibility.Internal ||
              !IsPartialType(type)))
         {
-            context.ReportDiagnostic(Diagnostic.Create(_rule0024, type.Locations.FirstOrDefault(), type.Name));
+            context.ReportDiagnostic(Diagnostic.Create(LoggerMessageContainerConventionsRule.Descriptor, type.Locations.FirstOrDefault(), type.Name));
         }
 
         if (type.TypeKind == TypeKind.Class && type.BaseType?.ToDisplayString() == "System.Exception" && type.Name.EndsWith("Exception", StringComparison.Ordinal))
         {
-            context.ReportDiagnostic(Diagnostic.Create(_rule0001, type.Locations.FirstOrDefault(), type.Name));
+            context.ReportDiagnostic(Diagnostic.Create(ExceptionTypeNamingRule.Descriptor, type.Locations.FirstOrDefault(), type.Name));
         }
 
         if (type.TypeKind == TypeKind.Class)
@@ -45,7 +47,7 @@ public partial class ArchitectureAnalyzer
             {
                 if (type.Name.EndsWith(suffix, StringComparison.Ordinal))
                 {
-                    context.ReportDiagnostic(Diagnostic.Create(_rule0003, type.Locations.FirstOrDefault(), type.Name, suffix));
+                    context.ReportDiagnostic(Diagnostic.Create(NoPostfixesOnClassNamesRule.Descriptor, type.Locations.FirstOrDefault(), type.Name, suffix));
                     break;
                 }
             }
@@ -53,7 +55,7 @@ public partial class ArchitectureAnalyzer
 
         if (type.TypeKind == TypeKind.Class && type.IsStatic && !_staticClassNameSuffixes.Any(type.Name.EndsWith))
         {
-            context.ReportDiagnostic(Diagnostic.Create(_rule0015, type.Locations.FirstOrDefault(), type.Name, string.Join(", ", _staticClassNameSuffixes)));
+            context.ReportDiagnostic(Diagnostic.Create(StaticClassNamingConventionRule.Descriptor, type.Locations.FirstOrDefault(), type.Name, string.Join(", ", _staticClassNameSuffixes)));
         }
 
         if (type.TypeKind != TypeKind.Class)
@@ -65,31 +67,31 @@ public partial class ArchitectureAnalyzer
         {
             if (constructor.Parameters.Length > 7)
             {
-                context.ReportDiagnostic(Diagnostic.Create(_rule0010, constructor.Locations.FirstOrDefault(), constructor.Parameters.Length));
+                context.ReportDiagnostic(Diagnostic.Create(ConstructorFanOutRule.Descriptor, constructor.Locations.FirstOrDefault(), constructor.Parameters.Length));
             }
 
             foreach (var parameter in constructor.Parameters)
             {
                 if (parameter.Type.ToDisplayString() == "System.IServiceProvider")
                 {
-                    context.ReportDiagnostic(Diagnostic.Create(_rule0007, parameter.Locations.FirstOrDefault()));
+                    context.ReportDiagnostic(Diagnostic.Create(NoIServiceProviderInjectionRule.Descriptor, parameter.Locations.FirstOrDefault()));
                 }
 
                 if (IsNonGenericLogger(parameter.Type))
                 {
-                    context.ReportDiagnostic(Diagnostic.Create(_rule0023, parameter.Locations.FirstOrDefault(), type.Name, "ILogger"));
+                    context.ReportDiagnostic(Diagnostic.Create(UseTypedLoggerCategoryRule.Descriptor, parameter.Locations.FirstOrDefault(), type.Name, "ILogger"));
                 }
 
                 if (TryGetLoggerCategory(parameter.Type, out var categoryType) &&
                     categoryType is not null &&
                     !SymbolEqualityComparer.Default.Equals(categoryType, type))
                 {
-                    context.ReportDiagnostic(Diagnostic.Create(_rule0023, parameter.Locations.FirstOrDefault(), type.Name, parameter.Type.ToDisplayString()));
+                    context.ReportDiagnostic(Diagnostic.Create(UseTypedLoggerCategoryRule.Descriptor, parameter.Locations.FirstOrDefault(), type.Name, parameter.Type.ToDisplayString()));
                 }
 
                 if (ShouldWarnConcreteInjection(parameter.Type))
                 {
-                    context.ReportDiagnostic(Diagnostic.Create(_rule0018, parameter.Locations.FirstOrDefault(), parameter.Name));
+                    context.ReportDiagnostic(Diagnostic.Create(AvoidConcreteTypeInjectionRule.Descriptor, parameter.Locations.FirstOrDefault(), parameter.Name));
                 }
             }
         }
@@ -99,7 +101,7 @@ public partial class ArchitectureAnalyzer
         var folderPath = GetLogicalFolderPath(location?.SourceTree?.FilePath);
         if (namespaceName.Length != 0 && folderPath.Length != 0 && !namespaceName.EndsWith(folderPath, StringComparison.Ordinal) && location is not null)
         {
-            context.ReportDiagnostic(Diagnostic.Create(_rule0017, location, namespaceName, folderPath));
+            context.ReportDiagnostic(Diagnostic.Create(NamespaceMustAlignWithFolderPathRule.Descriptor, location, namespaceName, folderPath));
         }
     }
 
