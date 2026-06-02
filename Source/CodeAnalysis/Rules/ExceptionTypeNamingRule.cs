@@ -6,7 +6,7 @@ using Microsoft.CodeAnalysis.Diagnostics;
 
 namespace Cratis.Architecture.CodeAnalysis.Rules;
 
-static class ExceptionTypeNamingRule
+public static class ExceptionTypeNamingRule
 {
     public const string Id = "CRARCH0001";
 

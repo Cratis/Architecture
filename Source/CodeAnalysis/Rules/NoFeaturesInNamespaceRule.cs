@@ -6,7 +6,7 @@ using Microsoft.CodeAnalysis.Diagnostics;
 
 namespace Cratis.Architecture.CodeAnalysis.Rules;
 
-static class NoFeaturesInNamespaceRule
+public static class NoFeaturesInNamespaceRule
 {
     public const string Id = "CRARCH0004";
 

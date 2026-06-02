@@ -6,7 +6,7 @@ using Microsoft.CodeAnalysis.Diagnostics;
 
 namespace Cratis.Architecture.CodeAnalysis.Rules;
 
-static class NoTestTypesInProductionRule
+public static class NoTestTypesInProductionRule
 {
     public const string Id = "CRARCH0014";
 

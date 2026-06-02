@@ -6,7 +6,7 @@ using Microsoft.CodeAnalysis.Diagnostics;
 
 namespace Cratis.Architecture.CodeAnalysis.Rules;
 
-static class NamespaceMustAlignWithFolderPathRule
+public static class NamespaceMustAlignWithFolderPathRule
 {
     public const string Id = "CRARCH0017";
 

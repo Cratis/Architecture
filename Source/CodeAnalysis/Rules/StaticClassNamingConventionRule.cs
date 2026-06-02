@@ -6,7 +6,7 @@ using Microsoft.CodeAnalysis.Diagnostics;
 
 namespace Cratis.Architecture.CodeAnalysis.Rules;
 
-static class StaticClassNamingConventionRule
+public static class StaticClassNamingConventionRule
 {
     static readonly string[] _staticClassNameSuffixes = ["Extensions", "Converters", "Ids", "WellKnown", "Defaults"];
 

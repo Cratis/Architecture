@@ -8,7 +8,7 @@ using Microsoft.CodeAnalysis.Diagnostics;
 
 namespace Cratis.Architecture.CodeAnalysis.Rules;
 
-static class AsyncVoidForbiddenRule
+public static class AsyncVoidForbiddenRule
 {
     public const string Id = "CRARCH0012";
 

@@ -7,7 +7,7 @@ using Microsoft.CodeAnalysis.Diagnostics;
 
 namespace Cratis.Architecture.CodeAnalysis.Rules;
 
-static class NoBlockingOnAsyncRule
+public static class NoBlockingOnAsyncRule
 {
     public const string Id = "CRARCH0013";
 

@@ -8,7 +8,7 @@ using Microsoft.CodeAnalysis.Diagnostics;
 
 namespace Cratis.Architecture.CodeAnalysis.Rules;
 
-static class NoBuiltInExceptionTypesRule
+public static class NoBuiltInExceptionTypesRule
 {
     static readonly ImmutableHashSet<string> _builtInExceptions =
     [

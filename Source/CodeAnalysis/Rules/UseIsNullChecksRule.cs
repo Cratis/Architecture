@@ -8,7 +8,7 @@ using Microsoft.CodeAnalysis.Diagnostics;
 
 namespace Cratis.Architecture.CodeAnalysis.Rules;
 
-static class UseIsNullChecksRule
+public static class UseIsNullChecksRule
 {
     public const string Id = "CRARCH0008";
 

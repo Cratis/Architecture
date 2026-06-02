@@ -6,7 +6,7 @@ using Microsoft.CodeAnalysis.Diagnostics;
 
 namespace Cratis.Architecture.CodeAnalysis.Rules;
 
-static class UseTypedLoggerCategoryRule
+public static class UseTypedLoggerCategoryRule
 {
     public const string Id = "CRARCH0023";
 

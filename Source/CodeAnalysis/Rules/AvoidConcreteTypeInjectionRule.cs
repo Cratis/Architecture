@@ -6,7 +6,7 @@ using Microsoft.CodeAnalysis.Diagnostics;
 
 namespace Cratis.Architecture.CodeAnalysis.Rules;
 
-static class AvoidConcreteTypeInjectionRule
+public static class AvoidConcreteTypeInjectionRule
 {
     public const string Id = "CRARCH0018";
 

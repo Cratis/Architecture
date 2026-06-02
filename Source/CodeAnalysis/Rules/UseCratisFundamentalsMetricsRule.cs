@@ -7,7 +7,7 @@ using Microsoft.CodeAnalysis.Diagnostics;
 
 namespace Cratis.Architecture.CodeAnalysis.Rules;
 
-static class UseCratisFundamentalsMetricsRule
+public static class UseCratisFundamentalsMetricsRule
 {
     public const string Id = "CRARCH0026";
 

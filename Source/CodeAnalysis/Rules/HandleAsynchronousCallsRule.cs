@@ -7,7 +7,7 @@ using Microsoft.CodeAnalysis.Diagnostics;
 
 namespace Cratis.Architecture.CodeAnalysis.Rules;
 
-static class HandleAsynchronousCallsRule
+public static class HandleAsynchronousCallsRule
 {
     public const string Id = "CRARCH0020";
 

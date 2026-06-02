@@ -7,7 +7,7 @@ using Microsoft.CodeAnalysis.Diagnostics;
 
 namespace Cratis.Architecture.CodeAnalysis.Rules;
 
-static class NoRegionsRule
+public static class NoRegionsRule
 {
     public const string Id = "CRARCH0005";
 

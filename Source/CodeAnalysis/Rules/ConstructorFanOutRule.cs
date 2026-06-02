@@ -6,7 +6,7 @@ using Microsoft.CodeAnalysis.Diagnostics;
 
 namespace Cratis.Architecture.CodeAnalysis.Rules;
 
-static class ConstructorFanOutRule
+public static class ConstructorFanOutRule
 {
     public const string Id = "CRARCH0010";
 

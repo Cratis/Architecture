@@ -6,7 +6,7 @@ using Microsoft.CodeAnalysis.Diagnostics;
 
 namespace Cratis.Architecture.CodeAnalysis.Rules;
 
-static class NoPostfixesOnClassNamesRule
+public static class NoPostfixesOnClassNamesRule
 {
     static readonly string[] _classNameSuffixes = ["Async", "Impl", "Manager", "Helper", "Service"];
 

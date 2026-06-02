@@ -7,7 +7,7 @@ using Microsoft.CodeAnalysis.Diagnostics;
 
 namespace Cratis.Architecture.CodeAnalysis.Rules;
 
-static class LoggingViaLoggerMessageRule
+public static class LoggingViaLoggerMessageRule
 {
     public const string Id = "CRARCH0006";
 

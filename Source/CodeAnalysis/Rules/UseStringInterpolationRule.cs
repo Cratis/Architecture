@@ -8,7 +8,7 @@ using Microsoft.CodeAnalysis.Diagnostics;
 
 namespace Cratis.Architecture.CodeAnalysis.Rules;
 
-static class UseStringInterpolationRule
+public static class UseStringInterpolationRule
 {
     public const string Id = "CRARCH0009";
 

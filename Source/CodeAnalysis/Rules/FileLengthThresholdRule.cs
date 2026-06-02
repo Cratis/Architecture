@@ -7,7 +7,7 @@ using Microsoft.CodeAnalysis.Text;
 
 namespace Cratis.Architecture.CodeAnalysis.Rules;
 
-static class FileLengthThresholdRule
+public static class FileLengthThresholdRule
 {
     public const string Id = "CRARCH0011";
 

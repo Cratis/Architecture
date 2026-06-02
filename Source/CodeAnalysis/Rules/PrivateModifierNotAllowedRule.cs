@@ -8,7 +8,7 @@ using Microsoft.CodeAnalysis.Diagnostics;
 
 namespace Cratis.Architecture.CodeAnalysis.Rules;
 
-static class PrivateModifierNotAllowedRule
+public static class PrivateModifierNotAllowedRule
 {
     public const string Id = "CRARCH0022";
 

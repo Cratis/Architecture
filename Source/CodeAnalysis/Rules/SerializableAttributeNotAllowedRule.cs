@@ -6,7 +6,7 @@ using Microsoft.CodeAnalysis.Diagnostics;
 
 namespace Cratis.Architecture.CodeAnalysis.Rules;
 
-static class SerializableAttributeNotAllowedRule
+public static class SerializableAttributeNotAllowedRule
 {
     public const string Id = "CRARCH0021";
 
