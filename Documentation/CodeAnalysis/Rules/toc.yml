@@ -1,0 +1,55 @@
+- name: Rule Reference
+  href: index.md
+  items:
+    - name: CRARCH0001 Exception type naming
+      href: crarch0001-exception-type-naming.md
+    - name: CRARCH0002 No built-in exception types
+      href: crarch0002-no-built-in-exception-types.md
+    - name: CRARCH0003 No postfixes on class names
+      href: crarch0003-no-postfixes-on-class-names.md
+    - name: CRARCH0004 No Features in namespace
+      href: crarch0004-no-features-in-namespace.md
+    - name: CRARCH0005 No regions
+      href: crarch0005-no-regions.md
+    - name: CRARCH0006 Logging via LoggerMessage
+      href: crarch0006-logging-via-loggermessage.md
+    - name: CRARCH0007 No IServiceProvider injection
+      href: crarch0007-no-iserviceprovider-injection.md
+    - name: CRARCH0008 Use is null checks
+      href: crarch0008-use-is-null-checks.md
+    - name: CRARCH0009 Use string interpolation
+      href: crarch0009-use-string-interpolation.md
+    - name: CRARCH0010 Constructor fan-out
+      href: crarch0010-constructor-fan-out.md
+    - name: CRARCH0011 File length threshold
+      href: crarch0011-file-length-threshold.md
+    - name: CRARCH0012 async void forbidden
+      href: crarch0012-async-void-forbidden.md
+    - name: CRARCH0013 No blocking on async
+      href: crarch0013-no-blocking-on-async.md
+    - name: CRARCH0014 No test types in production
+      href: crarch0014-no-test-types-in-production.md
+    - name: CRARCH0015 Static class naming convention
+      href: crarch0015-static-class-naming-convention.md
+    - name: CRARCH0016 Unused interfaces
+      href: crarch0016-unused-interfaces.md
+    - name: CRARCH0017 Namespace must align with folder path
+      href: crarch0017-namespace-must-align-with-folder-path.md
+    - name: CRARCH0018 Avoid concrete type injection
+      href: crarch0018-avoid-concrete-type-injection.md
+    - name: CRARCH0019 Avoid Async postfix on method names
+      href: crarch0019-avoid-async-postfix-on-method-names.md
+    - name: CRARCH0020 Handle asynchronous calls
+      href: crarch0020-handle-asynchronous-calls.md
+    - name: CRARCH0021 Serializable attribute not allowed
+      href: crarch0021-serializable-attribute-not-allowed.md
+    - name: CRARCH0022 Private modifier not allowed
+      href: crarch0022-private-modifier-not-allowed.md
+    - name: CRARCH0023 Use typed logger category
+      href: crarch0023-use-typed-logger-category.md
+    - name: CRARCH0024 LoggerMessage container conventions
+      href: crarch0024-loggermessage-container-conventions.md
+    - name: CRARCH0025 Use Cratis Fundamentals traces
+      href: crarch0025-use-cratis-fundamentals-traces.md
+    - name: CRARCH0026 Use Cratis Fundamentals metrics
+      href: crarch0026-use-cratis-fundamentals-metrics.md
