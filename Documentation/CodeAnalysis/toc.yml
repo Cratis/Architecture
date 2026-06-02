@@ -1,0 +1,5 @@
+- name: Code Analysis
+  href: index.md
+  items:
+    - name: Rule Reference
+      href: Rules/toc.yml
