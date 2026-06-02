@@ -1,12 +1,8 @@
 // Copyright (c) Cratis. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Microsoft.CodeAnalysis.Diagnostics;
-
 using Cratis.Architecture.CodeAnalysis.Rules;
+using Microsoft.CodeAnalysis.Diagnostics;
 
 namespace Cratis.Architecture.CodeAnalysis;
 
@@ -16,39 +12,5 @@ namespace Cratis.Architecture.CodeAnalysis;
 public partial class ArchitectureAnalyzer
 {
     static void AnalyzePrivateModifier(SyntaxNodeAnalysisContext context)
-    {
-        if (context.Node is AccessorDeclarationSyntax accessor)
-        {
-            var privateModifier = accessor.Modifiers.FirstOrDefault(_ => _.IsKind(SyntaxKind.PrivateKeyword));
-            if (privateModifier == default || IsAllowedPrivatePropertySetter(accessor))
-            {
-                return;
-            }
-
-            context.ReportDiagnostic(Diagnostic.Create(PrivateModifierNotAllowedRule.Descriptor, privateModifier.GetLocation()));
-            return;
-        }
-
-        if (context.Node is not MemberDeclarationSyntax member)
-        {
-            return;
-        }
-
-        var privateKeyword = member.Modifiers.FirstOrDefault(_ => _.IsKind(SyntaxKind.PrivateKeyword));
-        if (privateKeyword != default)
-        {
-            context.ReportDiagnostic(Diagnostic.Create(PrivateModifierNotAllowedRule.Descriptor, privateKeyword.GetLocation()));
-        }
-    }
-
-    static bool IsAllowedPrivatePropertySetter(AccessorDeclarationSyntax accessor)
-    {
-        if (!accessor.IsKind(SyntaxKind.SetAccessorDeclaration) && !accessor.IsKind(SyntaxKind.InitAccessorDeclaration))
-        {
-            return false;
-        }
-
-        return accessor.Parent?.Parent is BasePropertyDeclarationSyntax property &&
-               property.Modifiers.Any(_ => _.IsKind(SyntaxKind.PublicKeyword));
-    }
+        => PrivateModifierNotAllowedRule.Analyze(context);
 }

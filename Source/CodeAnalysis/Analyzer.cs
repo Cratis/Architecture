@@ -2,8 +2,8 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using System.Collections.Immutable;
-using Microsoft.CodeAnalysis;
 using Cratis.Architecture.CodeAnalysis.Rules;
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Diagnostics;
 
@@ -15,21 +15,6 @@ namespace Cratis.Architecture.CodeAnalysis;
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public partial class ArchitectureAnalyzer : DiagnosticAnalyzer
 {
-    static readonly string[] _classNameSuffixes = ["Async", "Impl", "Manager", "Helper", "Service"];
-    static readonly string[] _staticClassNameSuffixes = ["Extensions", "Converters", "Ids", "WellKnown", "Defaults"];
-    static readonly ImmutableHashSet<string> _builtInExceptions =
-    [
-        "System.Exception",
-        "System.InvalidOperationException",
-        "System.ArgumentException",
-        "System.ArgumentNullException",
-        "System.ArgumentOutOfRangeException",
-        "System.NotImplementedException",
-        "System.NotSupportedException",
-        "System.ApplicationException",
-        "System.NullReferenceException",
-    ];
-
     /// <inheritdoc/>
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics =>
     [
@@ -100,52 +85,6 @@ public partial class ArchitectureAnalyzer : DiagnosticAnalyzer
             SyntaxKind.AddAccessorDeclaration,
             SyntaxKind.RemoveAccessorDeclaration);
 
-        context.RegisterCompilationStartAction(startContext =>
-        {
-            var interfaceSymbols = new HashSet<INamedTypeSymbol>(SymbolEqualityComparer.Default);
-            var implementedInterfaces = new HashSet<INamedTypeSymbol>(SymbolEqualityComparer.Default);
-
-            startContext.RegisterSymbolAction(symbolContext =>
-            {
-                if (symbolContext.Symbol is not INamedTypeSymbol type)
-                {
-                    return;
-                }
-
-                if (type.TypeKind == TypeKind.Interface)
-                {
-                    interfaceSymbols.Add(type);
-                    return;
-                }
-
-                if (type.TypeKind != TypeKind.Class || type.IsAbstract)
-                {
-                    return;
-                }
-
-                foreach (var @interface in type.AllInterfaces)
-                {
-                    implementedInterfaces.Add(@interface);
-                }
-            }, SymbolKind.NamedType);
-
-            startContext.RegisterCompilationEndAction(endContext =>
-            {
-                foreach (var @interface in interfaceSymbols)
-                {
-                    if (implementedInterfaces.Contains(@interface) || !@interface.Name.StartsWith('I'))
-                    {
-                        continue;
-                    }
-
-                    var location = @interface.Locations.FirstOrDefault();
-                    if (location is not null)
-                    {
-                        endContext.ReportDiagnostic(Diagnostic.Create(UnusedInterfacesRule.Descriptor, location, @interface.Name));
-                    }
-                }
-            });
-        });
+        context.RegisterCompilationStartAction(UnusedInterfacesRule.Register);
     }
-
 }
