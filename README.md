@@ -2,6 +2,24 @@
 
 Cratis Architecture is a Roslyn analyzer package that encodes the architectural conventions we use across Cratis solutions.
 
+## Installation
+
+Add the NuGet package to your project:
+
+```bash
+dotnet add package Cratis.Architecture.CodeAnalysis
+```
+
+Or add it directly to your `.csproj` file:
+
+```xml
+<ItemGroup>
+  <PackageReference Include="Cratis.Architecture.CodeAnalysis" Version="*" />
+</ItemGroup>
+```
+
+The analyzers will automatically run during build and provide diagnostics in your IDE.
+
 ## What this project represents
 
 This project turns architectural intent into executable rules. Instead of relying on review comments and tribal knowledge, you get immediate diagnostics directly in your editor and CI pipeline.
