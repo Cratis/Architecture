@@ -15,9 +15,9 @@ public class an_architecture_analyzer : Specification
 {
     protected IReadOnlyList<Diagnostic> _diagnostics = [];
 
-    protected static async Task<IReadOnlyList<Diagnostic>> analyze(string source)
+    protected static async Task<IReadOnlyList<Diagnostic>> analyze(string source, string? filePath = null)
     {
-        var syntaxTree = CSharpSyntaxTree.ParseText(source, path: "/tmp/Source/CodeAnalysis/TestFile.cs");
+        var syntaxTree = CSharpSyntaxTree.ParseText(source, path: filePath ?? "/tmp/Source/CodeAnalysis/TestFile.cs");
         var compilation = CSharpCompilation.Create(
             assemblyName: "AnalyzerTests",
             syntaxTrees: [syntaxTree],

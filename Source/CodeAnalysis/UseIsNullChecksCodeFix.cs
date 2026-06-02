@@ -8,6 +8,8 @@ using Microsoft.CodeAnalysis.CodeFixes;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
+using Cratis.Architecture.CodeAnalysis.Rules;
+
 namespace Cratis.Architecture.CodeAnalysis;
 
 /// <summary>
@@ -17,7 +19,7 @@ namespace Cratis.Architecture.CodeAnalysis;
 public class UseIsNullChecksCodeFix : CodeFixProvider
 {
     /// <inheritdoc/>
-    public override ImmutableArray<string> FixableDiagnosticIds => ["CRARCH0008"];
+    public override ImmutableArray<string> FixableDiagnosticIds => [UseIsNullChecksRule.Id];
 
     /// <inheritdoc/>
     public override FixAllProvider GetFixAllProvider() => WellKnownFixAllProviders.BatchFixer;
@@ -34,7 +36,7 @@ public class UseIsNullChecksCodeFix : CodeFixProvider
         foreach (var diagnostic in context.Diagnostics)
         {
             var node = root.FindNode(diagnostic.Location.SourceSpan);
-            if (diagnostic.Id == "CRARCH0008" && node is BinaryExpressionSyntax binary)
+            if (diagnostic.Id == UseIsNullChecksRule.Id && node is BinaryExpressionSyntax binary)
             {
                 context.RegisterCodeFix(
                     CodeAction.Create(
