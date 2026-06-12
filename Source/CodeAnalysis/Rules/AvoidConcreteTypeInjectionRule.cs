@@ -6,13 +6,27 @@ using Microsoft.CodeAnalysis.Diagnostics;
 
 namespace Cratis.Architecture.CodeAnalysis.Rules;
 
+/// <summary>
+/// Rule that enforces constructor dependencies use interface abstractions rather than concrete types.
+/// </summary>
 public static class AvoidConcreteTypeInjectionRule
 {
+    /// <summary>
+    /// The diagnostic rule identifier.
+    /// </summary>
     public const string Id = "CRARCH0018";
 
+    /// <summary>
+    /// The diagnostic descriptor for this rule.
+    /// </summary>
     public static readonly DiagnosticDescriptor Descriptor =
         DiagnosticRuleFactory.Create(Id, "Avoid concrete type injection", "Constructor dependency '{0}' should be an interface abstraction", "Inject interfaces instead of concrete classes. Concrete types marked with [ReadModel] are exempt.");
 
+    /// <summary>
+    /// Analyzes a constructor parameter and reports a diagnostic if it is a concrete type.
+    /// </summary>
+    /// <param name="context">The <see cref="SymbolAnalysisContext"/> for the current analysis.</param>
+    /// <param name="parameter">The <see cref="IParameterSymbol"/> to analyze.</param>
     public static void Analyze(SymbolAnalysisContext context, IParameterSymbol parameter)
     {
         if (ShouldWarnConcreteInjection(parameter.Type))

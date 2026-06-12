@@ -6,13 +6,26 @@ using Microsoft.CodeAnalysis.Diagnostics;
 
 namespace Cratis.Architecture.CodeAnalysis.Rules;
 
+/// <summary>
+/// Rule that reports interfaces that have no concrete implementations.
+/// </summary>
 public static class UnusedInterfacesRule
 {
+    /// <summary>
+    /// The diagnostic rule identifier.
+    /// </summary>
     public const string Id = "CRARCH0016";
 
+    /// <summary>
+    /// The diagnostic descriptor for this rule.
+    /// </summary>
     public static readonly DiagnosticDescriptor Descriptor =
         DiagnosticRuleFactory.Create(Id, "Unused interfaces", "Interface '{0}' has no concrete implementations", "Remove speculative interfaces with no implementations or add a concrete implementation where the abstraction is used.");
 
+    /// <summary>
+    /// Registers symbol and compilation-end actions to detect interfaces with no concrete implementations.
+    /// </summary>
+    /// <param name="startContext">The <see cref="CompilationStartAnalysisContext"/> used to register compilation-scoped analysis actions.</param>
     public static void Register(CompilationStartAnalysisContext startContext)
     {
         var interfaceSymbols = new HashSet<INamedTypeSymbol>(SymbolEqualityComparer.Default);

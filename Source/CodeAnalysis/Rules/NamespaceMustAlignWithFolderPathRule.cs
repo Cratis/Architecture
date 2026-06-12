@@ -6,13 +6,27 @@ using Microsoft.CodeAnalysis.Diagnostics;
 
 namespace Cratis.Architecture.CodeAnalysis.Rules;
 
+/// <summary>
+/// Rule that enforces the declared namespace matches the folder path of the file.
+/// </summary>
 public static class NamespaceMustAlignWithFolderPathRule
 {
+    /// <summary>
+    /// The diagnostic rule identifier.
+    /// </summary>
     public const string Id = "CRARCH0017";
 
+    /// <summary>
+    /// The diagnostic descriptor for this rule.
+    /// </summary>
     public static readonly DiagnosticDescriptor Descriptor =
         DiagnosticRuleFactory.Create(Id, "Namespace must align with folder path", "Namespace '{0}' should align with folder path '{1}'", "Adjust the declared namespace or move the file so namespace segments match the folder structure.");
 
+    /// <summary>
+    /// Analyzes a named type symbol and reports a diagnostic if the namespace does not align with the folder path.
+    /// </summary>
+    /// <param name="context">The <see cref="SymbolAnalysisContext"/> for the current analysis.</param>
+    /// <param name="type">The <see cref="INamedTypeSymbol"/> to analyze.</param>
     public static void Analyze(SymbolAnalysisContext context, INamedTypeSymbol type)
     {
         var namespaceName = type.ContainingNamespace?.ToDisplayString() ?? string.Empty;

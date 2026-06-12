@@ -8,13 +8,26 @@ using Microsoft.CodeAnalysis.Diagnostics;
 
 namespace Cratis.Architecture.CodeAnalysis.Rules;
 
+/// <summary>
+/// Rule that forbids the use of explicit private modifiers since private is implicit in C#.
+/// </summary>
 public static class PrivateModifierNotAllowedRule
 {
+    /// <summary>
+    /// The diagnostic rule identifier.
+    /// </summary>
     public const string Id = "CRARCH0022";
 
+    /// <summary>
+    /// The diagnostic descriptor for this rule.
+    /// </summary>
     public static readonly DiagnosticDescriptor Descriptor =
         DiagnosticRuleFactory.Create(Id, "Private modifier not allowed", "Avoid explicit 'private' modifier", "Remove explicit private modifiers because private is implicit in C#. Keep explicit private only for property setters.");
 
+    /// <summary>
+    /// Analyzes a syntax node and reports a diagnostic if an explicit private modifier is used where it is implicit.
+    /// </summary>
+    /// <param name="context">The <see cref="SyntaxNodeAnalysisContext"/> for the current analysis.</param>
     public static void Analyze(SyntaxNodeAnalysisContext context)
     {
         if (context.Node is AccessorDeclarationSyntax accessor)

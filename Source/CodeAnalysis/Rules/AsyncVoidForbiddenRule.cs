@@ -8,13 +8,27 @@ using Microsoft.CodeAnalysis.Diagnostics;
 
 namespace Cratis.Architecture.CodeAnalysis.Rules;
 
+/// <summary>
+/// Rule that forbids async void methods outside of event handlers.
+/// </summary>
 public static class AsyncVoidForbiddenRule
 {
+    /// <summary>
+    /// The diagnostic rule identifier.
+    /// </summary>
     public const string Id = "CRARCH0012";
 
+    /// <summary>
+    /// The diagnostic descriptor for this rule.
+    /// </summary>
     public static readonly DiagnosticDescriptor Descriptor =
         DiagnosticRuleFactory.Create(Id, "async void forbidden", "Avoid async void methods outside event handlers", "Change async void methods to async Task unless the method is an event handler.", DiagnosticSeverity.Error);
 
+    /// <summary>
+    /// Analyzes a method declaration and reports a diagnostic if it is async void and not an event handler.
+    /// </summary>
+    /// <param name="context">The <see cref="SyntaxNodeAnalysisContext"/> for the current analysis.</param>
+    /// <param name="method">The <see cref="MethodDeclarationSyntax"/> to analyze.</param>
     public static void Analyze(SyntaxNodeAnalysisContext context, MethodDeclarationSyntax method)
     {
         if (method.Modifiers.Any(SyntaxKind.AsyncKeyword) &&

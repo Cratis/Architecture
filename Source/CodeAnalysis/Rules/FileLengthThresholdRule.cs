@@ -7,13 +7,27 @@ using Microsoft.CodeAnalysis.Text;
 
 namespace Cratis.Architecture.CodeAnalysis.Rules;
 
+/// <summary>
+/// Rule that enforces files do not exceed 400 effective lines of code.
+/// </summary>
 public static class FileLengthThresholdRule
 {
+    /// <summary>
+    /// The diagnostic rule identifier.
+    /// </summary>
     public const string Id = "CRARCH0011";
 
+    /// <summary>
+    /// The diagnostic descriptor for this rule.
+    /// </summary>
     public static readonly DiagnosticDescriptor Descriptor =
         DiagnosticRuleFactory.Create(Id, "File length threshold", "File has {0} effective lines (maximum is 400)", "Split large files into smaller focused types once effective code lines exceed 400.");
 
+    /// <summary>
+    /// Analyzes source text and reports a diagnostic if the effective line count exceeds 400.
+    /// </summary>
+    /// <param name="context">The <see cref="SyntaxTreeAnalysisContext"/> for the current analysis.</param>
+    /// <param name="text">The <see cref="SourceText"/> of the file to analyze.</param>
     public static void Analyze(SyntaxTreeAnalysisContext context, SourceText text)
     {
         var effectiveLines = CountEffectiveLines(text);
