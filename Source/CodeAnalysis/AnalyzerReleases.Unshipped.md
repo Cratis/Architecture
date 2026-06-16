@@ -33,4 +33,3 @@ CRARCH0025 | Architecture | Warning | Use Cratis Fundamentals traces
 CRARCH0026 | Architecture | Warning | Use Cratis Fundamentals metrics
 CRARCH0027 | Architecture | Warning | ConceptAs must have a static readonly NotSet sentinel
 CRARCH0028 | Architecture | Warning | Guid-backed identity concept must have a static New() factory
-CRARCH0029 | Architecture | Warning | Avoid using primitive types - wrap in ConceptAs<>

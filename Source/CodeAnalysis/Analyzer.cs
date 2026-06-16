@@ -46,7 +46,8 @@ public partial class ArchitectureAnalyzer : DiagnosticAnalyzer
         UseCratisFundamentalsMetricsRule.Descriptor,
         ConceptAsMustHaveNotSetSentinelRule.Descriptor,
         GuidConceptMustHaveNewFactoryRule.Descriptor,
-        AvoidPrimitiveTypesRule.Descriptor,
+        // TODO: CRARCH0029 - Uncomment when the rule is fully implemented
+        // AvoidPrimitiveTypesRule.Descriptor,
     ];
 
     /// <inheritdoc/>
@@ -64,9 +65,10 @@ public partial class ArchitectureAnalyzer : DiagnosticAnalyzer
         context.RegisterSyntaxNodeAction(AnalyzeMethodDeclaration, SyntaxKind.MethodDeclaration);
         context.RegisterSyntaxNodeAction(AnalyzeIdentifierTypeUse, SyntaxKind.IdentifierName);
         context.RegisterSyntaxNodeAction(AnalyzeMemberAccess, SyntaxKind.SimpleMemberAccessExpression);
-        context.RegisterSyntaxNodeAction(AnalyzePropertyDeclaration, SyntaxKind.PropertyDeclaration);
-        context.RegisterSyntaxNodeAction(AnalyzeFieldDeclaration, SyntaxKind.FieldDeclaration);
-        context.RegisterSyntaxNodeAction(AnalyzeParameter, SyntaxKind.Parameter);
+        // TODO: CRARCH0029 - Uncomment these when the rule is fully implemented
+        // context.RegisterSyntaxNodeAction(AnalyzePropertyDeclaration, SyntaxKind.PropertyDeclaration);
+        // context.RegisterSyntaxNodeAction(AnalyzeFieldDeclaration, SyntaxKind.FieldDeclaration);
+        // context.RegisterSyntaxNodeAction(AnalyzeParameter, SyntaxKind.Parameter);
         context.RegisterSyntaxNodeAction(
             AnalyzePrivateModifier,
             SyntaxKind.ClassDeclaration,
