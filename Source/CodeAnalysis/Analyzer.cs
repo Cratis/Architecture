@@ -44,6 +44,9 @@ public partial class ArchitectureAnalyzer : DiagnosticAnalyzer
         LoggerMessageContainerConventionsRule.Descriptor,
         UseCratisFundamentalsTracesRule.Descriptor,
         UseCratisFundamentalsMetricsRule.Descriptor,
+        ConceptAsMustHaveNotSetSentinelRule.Descriptor,
+        GuidConceptMustHaveNewFactoryRule.Descriptor,
+        AvoidPrimitiveTypesRule.Descriptor,
     ];
 
     /// <inheritdoc/>
@@ -61,6 +64,9 @@ public partial class ArchitectureAnalyzer : DiagnosticAnalyzer
         context.RegisterSyntaxNodeAction(AnalyzeMethodDeclaration, SyntaxKind.MethodDeclaration);
         context.RegisterSyntaxNodeAction(AnalyzeIdentifierTypeUse, SyntaxKind.IdentifierName);
         context.RegisterSyntaxNodeAction(AnalyzeMemberAccess, SyntaxKind.SimpleMemberAccessExpression);
+        context.RegisterSyntaxNodeAction(AnalyzePropertyDeclaration, SyntaxKind.PropertyDeclaration);
+        context.RegisterSyntaxNodeAction(AnalyzeFieldDeclaration, SyntaxKind.FieldDeclaration);
+        context.RegisterSyntaxNodeAction(AnalyzeParameter, SyntaxKind.Parameter);
         context.RegisterSyntaxNodeAction(
             AnalyzePrivateModifier,
             SyntaxKind.ClassDeclaration,
