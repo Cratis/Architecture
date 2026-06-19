@@ -66,10 +66,10 @@ public class UseStringInterpolationCodeFix : CodeFixProvider
         var interpolated = format;
         for (var i = 0; i < arguments.Length; i++)
         {
-            interpolated = interpolated.Replace("{" + i + "}", "{" + arguments[i] + "}", StringComparison.Ordinal);
+            interpolated = interpolated.Replace("{" + i + "}", "{" + arguments[i] + "}");
         }
 
-        var replacement = SyntaxFactory.ParseExpression("$\"" + interpolated.Replace("\"", "\\\"", StringComparison.Ordinal) + "\"")
+        var replacement = SyntaxFactory.ParseExpression("$\"" + interpolated.Replace("\"", "\\\"") + "\"")
             .WithTriviaFrom(invocation);
 
         var root = await document.GetSyntaxRootAsync(cancellationToken).ConfigureAwait(false);

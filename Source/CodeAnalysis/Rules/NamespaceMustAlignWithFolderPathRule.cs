@@ -45,7 +45,7 @@ public static class NamespaceMustAlignWithFolderPathRule
             return string.Empty;
         }
 
-        var normalized = filePath.Replace('\\', '/');
+        var normalized = filePath!.Replace('\\', '/');
         var sourceIndex = normalized.IndexOf("/Source/", StringComparison.Ordinal);
         if (sourceIndex < 0)
         {
@@ -66,7 +66,7 @@ public static class NamespaceMustAlignWithFolderPathRule
             return string.Empty;
         }
 
-        var folders = withinProject[..fileNameIndex].Split('/', StringSplitOptions.RemoveEmptyEntries);
-        return string.Join('.', folders);
+        var folders = withinProject[..fileNameIndex].Split(['/'], StringSplitOptions.RemoveEmptyEntries);
+        return string.Join(".", folders);
     }
 }
