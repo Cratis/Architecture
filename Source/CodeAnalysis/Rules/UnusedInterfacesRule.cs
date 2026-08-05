@@ -59,7 +59,7 @@ public static class UnusedInterfacesRule
         {
             foreach (var @interface in interfaceSymbols)
             {
-                if (implementedInterfaces.Contains(@interface) || !@interface.Name.StartsWith('I'))
+                if (implementedInterfaces.Contains(@interface) || !@interface.Name.StartsWith("I", StringComparison.Ordinal))
                 {
                     continue;
                 }
