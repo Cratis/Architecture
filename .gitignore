@@ -307,3 +307,6 @@ certificates/
 .grpc-schema-gen*
 .playwright-mcp
 .claude/worktrees
+
+# Local AI work artifacts (plans, handovers, session notes) — never tracked
+.ai-work/
