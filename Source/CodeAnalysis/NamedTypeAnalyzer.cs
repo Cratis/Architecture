@@ -24,6 +24,8 @@ public partial class ArchitectureAnalyzer
         ExceptionTypeNamingRule.Analyze(context, type);
         NoPostfixesOnClassNamesRule.Analyze(context, type);
         StaticClassNamingConventionRule.Analyze(context, type);
+        ConceptAsMustHaveNotSetSentinelRule.Analyze(context, type);
+        GuidConceptMustHaveNewFactoryRule.Analyze(context, type);
 
         if (type.TypeKind != TypeKind.Class)
         {

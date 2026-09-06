@@ -31,3 +31,5 @@ CRARCH0023 | Architecture | Warning | Use typed logger category
 CRARCH0024 | Architecture | Warning | LoggerMessage container conventions
 CRARCH0025 | Architecture | Warning | Use Cratis Fundamentals traces
 CRARCH0026 | Architecture | Warning | Use Cratis Fundamentals metrics
+CRARCH0027 | Architecture | Warning | ConceptAs must have a static readonly NotSet sentinel
+CRARCH0028 | Architecture | Warning | Guid-backed identity concept must have a static New() factory
