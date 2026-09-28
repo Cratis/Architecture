@@ -18,7 +18,7 @@
     <PackageVersion Include="Meziantou.Analyzer" Version="3.0.290" />
     <!-- Testing & Specifications -->
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.10.1" />
-    <PackageVersion Include="coverlet.collector" Version="10.0.1" />
+    <PackageVersion Include="coverlet.collector" Version="10.1.0" />
     <PackageVersion Include="Cratis.Specifications" Version="3.0.5" />
     <PackageVersion Include="Cratis.Specifications.XUnit" Version="4.1.1" />
     <PackageVersion Include="Testcontainers" Version="4.12.0" />
