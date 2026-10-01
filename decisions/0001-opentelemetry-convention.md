@@ -172,6 +172,7 @@ Tenant never goes in the resource.
 - **Local:** the Aspire dashboard (pinned image, port 18888 for the UI, 4317 for OTLP). Aspire AppHosts in templates set the endpoint automatically.
 - **Production (Infrastructure):** Collector → Prometheus for metrics, Loki for logs, **Tempo for traces**, with Grafana linking traces, logs and metrics (`trace_id` derived fields, exemplars).
 - **Workbench:** an "Open trace" link on events and failed partitions, built from a configured URL template, plus search by correlation id.
+- **Docs:** one Cratis Stack observability page that links to the product pages.
 
 ## Consequences
 
