@@ -1,3 +1,7 @@
+---
+description: "Cratis Architecture code analysis: the Roslyn analyzer goals and a table of all CRARCH rules with their severities."
+---
+
 # Code Analysis
 
 Cratis Architecture ships Roslyn analyzers that enforce architectural and coding conventions across Cratis codebases.
