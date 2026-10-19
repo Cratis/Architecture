@@ -1,3 +1,7 @@
+---
+description: "CRARCH0015 requires static utility classes to follow strict naming conventions that improve discoverability."
+---
+
 # CRARCH0015 Static class naming convention
 
 - **Category:** Architecture

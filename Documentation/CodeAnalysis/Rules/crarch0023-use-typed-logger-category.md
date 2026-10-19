@@ -1,3 +1,7 @@
+---
+description: "CRARCH0023 requires typed logger categories so that log events align with the type that produced them."
+---
+
 # CRARCH0023 Use typed logger category
 
 - **Category:** Architecture

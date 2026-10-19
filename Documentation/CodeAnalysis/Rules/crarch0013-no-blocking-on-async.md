@@ -1,3 +1,7 @@
+---
+description: "CRARCH0013 flags blocking on asynchronous calls, which can cause deadlocks and reliability issues."
+---
+
 # CRARCH0013 No blocking on async
 
 - **Category:** Architecture

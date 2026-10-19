@@ -1,3 +1,7 @@
+---
+description: "CRARCH0016 flags interfaces without implementations, because speculative abstractions add needless complexity."
+---
+
 # CRARCH0016 Unused interfaces
 
 - **Category:** Architecture

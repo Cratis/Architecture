@@ -1,3 +1,7 @@
+---
+description: "CRARCH0017 requires a type's namespace to align with its folder path, improving navigability and consistency."
+---
+
 # CRARCH0017 Namespace must align with folder path
 
 - **Category:** Architecture

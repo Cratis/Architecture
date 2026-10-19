@@ -1,3 +1,7 @@
+---
+description: "CRARCH0001 requires exception types to use domain terminology and not end with the generic Exception suffix."
+---
+
 # CRARCH0001 Exception type naming
 
 - **Category:** Architecture

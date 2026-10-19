@@ -1,3 +1,7 @@
+---
+description: "CRARCH0010 flags constructor fan-out: a type with too many dependencies is carrying too much responsibility."
+---
+
 # CRARCH0010 Constructor fan-out
 
 - **Category:** Architecture

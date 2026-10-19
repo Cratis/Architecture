@@ -1,3 +1,7 @@
+---
+description: "Reference of every CRARCH diagnostic in Cratis.Architecture.CodeAnalysis, with its title, severity and what it enforces."
+---
+
 # Rule Reference
 
 This reference lists all diagnostics in `Cratis.Architecture.CodeAnalysis`.

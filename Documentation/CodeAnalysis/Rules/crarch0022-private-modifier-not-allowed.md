@@ -1,3 +1,7 @@
+---
+description: "CRARCH0022 flags the explicit private modifier, because private is implicit in C# and the keyword only adds noise."
+---
+
 # CRARCH0022 Private modifier not allowed
 
 - **Category:** Architecture

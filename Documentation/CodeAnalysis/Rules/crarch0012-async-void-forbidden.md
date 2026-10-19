@@ -1,3 +1,7 @@
+---
+description: "CRARCH0012 forbids async void methods, which hide failures and cannot be awaited in regular flows; it reports an error."
+---
+
 # CRARCH0012 async void forbidden
 
 - **Category:** Architecture

@@ -1,3 +1,7 @@
+---
+description: "CRARCH0006 requires logging through source-generated LoggerMessage methods for consistent, structured and faster log events."
+---
+
 # CRARCH0006 Logging via LoggerMessage
 
 - **Category:** Architecture

@@ -1,3 +1,7 @@
+---
+description: "CRARCH0019 flags the Async postfix on method names unless a synchronous and asynchronous pair makes it necessary."
+---
+
 # CRARCH0019 Avoid Async postfix on method names
 
 - **Category:** Architecture

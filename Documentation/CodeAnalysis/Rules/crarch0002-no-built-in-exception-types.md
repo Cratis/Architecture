@@ -1,3 +1,7 @@
+---
+description: "CRARCH0002 flags throwing built-in framework exception types, which hide domain intent, and asks for domain exceptions."
+---
+
 # CRARCH0002 No built-in exception types
 
 - **Category:** Architecture

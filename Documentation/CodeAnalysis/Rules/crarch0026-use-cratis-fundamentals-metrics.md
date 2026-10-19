@@ -1,3 +1,7 @@
+---
+description: "CRARCH0026 asks metrics to use Cratis Fundamentals abstractions instead of creating raw instruments directly."
+---
+
 # CRARCH0026 Use Cratis Fundamentals metrics
 
 - **Category:** Architecture

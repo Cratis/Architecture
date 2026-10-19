@@ -1,3 +1,7 @@
+---
+description: "CRARCH0009 prefers interpolated strings over concatenation or formatting calls because they are clearer and easier to maintain."
+---
+
 # CRARCH0009 Use string interpolation
 
 - **Category:** Architecture

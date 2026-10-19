@@ -1,3 +1,7 @@
+---
+description: "CRARCH0021 flags the Serializable attribute, since legacy serialization attributes are not part of Cratis architecture guidance."
+---
+
 # CRARCH0021 Serializable attribute not allowed
 
 - **Category:** Architecture

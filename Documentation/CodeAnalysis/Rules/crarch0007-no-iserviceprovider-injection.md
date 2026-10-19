@@ -1,3 +1,7 @@
+---
+description: "CRARCH0007 flags IServiceProvider injection, because the service locator pattern hides dependencies and hampers reasoning."
+---
+
 # CRARCH0007 No IServiceProvider injection
 
 - **Category:** Architecture

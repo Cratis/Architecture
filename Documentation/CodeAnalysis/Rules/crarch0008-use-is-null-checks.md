@@ -1,3 +1,7 @@
+---
+description: "CRARCH0008 prefers pattern-matching null checks with is null over equality operators, for one consistent style."
+---
+
 # CRARCH0008 Use is null checks
 
 - **Category:** Architecture

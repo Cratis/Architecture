@@ -1,3 +1,7 @@
+---
+description: "CRARCH0014 reports an error when production assemblies depend on test-only types or infrastructure."
+---
+
 # CRARCH0014 No test types in production
 
 - **Category:** Architecture
