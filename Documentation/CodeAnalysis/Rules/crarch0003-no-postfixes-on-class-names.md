@@ -1,3 +1,7 @@
+---
+description: "CRARCH0003 requires class names to describe domain concepts rather than technical roles through postfixes."
+---
+
 # CRARCH0003 No postfixes on class names
 
 - **Category:** Architecture

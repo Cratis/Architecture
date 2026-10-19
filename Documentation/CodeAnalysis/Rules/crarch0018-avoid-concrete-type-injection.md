@@ -1,3 +1,7 @@
+---
+description: "CRARCH0018 asks constructors to depend on abstractions rather than concrete types, for looser coupling."
+---
+
 # CRARCH0018 Avoid concrete type injection
 
 - **Category:** Architecture

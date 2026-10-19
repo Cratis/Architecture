@@ -1,3 +1,7 @@
+---
+description: "CRARCH0024 requires LoggerMessage methods to live in convention-based containers, so logging stays consistent."
+---
+
 # CRARCH0024 LoggerMessage container conventions
 
 - **Category:** Architecture

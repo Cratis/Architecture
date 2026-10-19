@@ -1,3 +1,7 @@
+---
+description: "CRARCH0020 flags unhandled asynchronous calls, because fire-and-forget calls hide failures and give nondeterministic behavior."
+---
+
 # CRARCH0020 Handle asynchronous calls
 
 - **Category:** Architecture

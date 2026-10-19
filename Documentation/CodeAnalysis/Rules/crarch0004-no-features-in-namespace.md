@@ -1,3 +1,7 @@
+---
+description: "CRARCH0004 keeps namespace paths domain-oriented by flagging a Features segment and other framework-driven structure names."
+---
+
 # CRARCH0004 No Features in namespace
 
 - **Category:** Architecture

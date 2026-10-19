@@ -1,3 +1,7 @@
+---
+description: "CRARCH0011 flags files above a length threshold, because very large files are difficult to understand and maintain."
+---
+
 # CRARCH0011 File length threshold
 
 - **Category:** Architecture

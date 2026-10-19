@@ -1,3 +1,7 @@
+---
+description: "CRARCH0025 asks tracing to go through Cratis Fundamentals abstractions rather than raw tracing APIs, for consistency."
+---
+
 # CRARCH0025 Use Cratis Fundamentals traces
 
 - **Category:** Architecture

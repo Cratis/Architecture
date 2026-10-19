@@ -1,3 +1,7 @@
+---
+description: "CRARCH0005 flags #region directives, which usually mean a file needs better separation of responsibilities."
+---
+
 # CRARCH0005 No regions
 
 - **Category:** Architecture
