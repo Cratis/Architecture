@@ -5,14 +5,15 @@
     <PropertyGroup>
         <Version>1.0.0</Version>
         <Copyright>Copyright Cratis</Copyright>
-        <Authors>all contributors</Authors>
+        <Authors>Cratis</Authors>
         <DebugType>portable</DebugType>
         <PackageIcon>logo.png</PackageIcon>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <RepositoryType>git</RepositoryType>
         <PublishRepositoryUrl>true</PublishRepositoryUrl>
-        <RepositoryUrl>https://github.com/Cratis/Chronicle</RepositoryUrl>
-        <PackageProjectUrl>https://github.com/Cratis/Chronicle</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/Cratis/Architecture</RepositoryUrl>
+        <PackageProjectUrl>https://www.cratis.io/architecture/</PackageProjectUrl>
+        <PackageTags>cratis;architecture;roslyn;analyzers;dotnet</PackageTags>
 
         <GenerateAssemblyTitleAttribute>true</GenerateAssemblyTitleAttribute>
         <GenerateAssemblyDescriptionAttribute>true</GenerateAssemblyDescriptionAttribute>
