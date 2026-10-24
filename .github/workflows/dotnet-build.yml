@@ -14,8 +14,10 @@ on:
     branches:
       - "**"
     paths:
-      - "Source/**/*.cs"
-      - "Source/**/*.csproj"
+      - "Source/**"
+      - "Directory.Build.props"
+      - "Directory.Packages.props"
+      - ".github/workflows/dotnet-build.yml"
 
 permissions:
   contents: read
@@ -71,5 +73,5 @@ jobs:
           path: ./**/bin
           key: ${{ env.DOTNET_CACHE }}
 
-      - name: Run tests
-        run: dotnet test --no-build --configuration Release
+      - name: Run specifications
+        run: ./Source/CodeAnalysis.Specs/bin/Release/net10.0/Cratis.Architecture.CodeAnalysis.Specs
