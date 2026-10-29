@@ -1,7 +1,7 @@
 # 0001. Cratis OpenTelemetry convention
 
 - **Status:** Accepted
-- **Date:** 2026-10-01
+- **Date:** 2026-10-01, amended 2026-10-29 after the first production rollout (see [Amendment 1](#amendment-1-production-rollout-findings))
 - **Scope:** every Cratis product, library and language client
 - **Supersedes:** product-local conventions
 - **Related:**
@@ -75,7 +75,7 @@ This record defines one convention so that telemetry from every Cratis product i
   - Every metric has a UCUM unit (`s`, `{event}`) and a description.
   - Durations are histograms in seconds.
   - Metric attributes use the same keys as span attributes and never per-partition, per-event-source or correlation values.
-  - Cardinality is capped and overflow is recorded as `_other`, as Arc does with its limit of 1,000.
+  - Cardinality is capped, as Arc does with its limit of 1,000. Series beyond the cap are folded by the SDK into one overflow series carrying the attribute `otel.metric.overflow=true`; dashboards and alerts must account for it.
 - **Names are public API.**
   - Each product exposes public constants (`WellKnownTelemetryNames` in .NET, exported consts in TS and Kotlin).
   - A rename ships both names for one minor release, with a changelog entry.
@@ -88,7 +88,7 @@ This record defines one convention so that telemetry from every Cratis product i
 | `service.name` | `OTEL_SERVICE_NAME` | The variable wins. Code only supplies a default when it is unset (lowercase, for example `chronicle` or `cratis-authproxy`). Never call `AddService(name)` in a way that overrides the variable. |
 | `service.namespace` | `OTEL_RESOURCE_ATTRIBUTES`, or the Kubernetes annotation `resource.opentelemetry.io/service.namespace` | `cratis` for Cratis-operated services. Customer apps choose their own. |
 | `service.version` | Set by the library from `AssemblyInformationalVersion`, `package.json` or the Gradle version | |
-| `service.instance.id` | Pod name through `OTEL_RESOURCE_ATTRIBUTES`; otherwise the SDK default | Not promoted to Prometheus labels; use `target_info`. |
+| `service.instance.id` | Pod name through `OTEL_RESOURCE_ATTRIBUTES`; otherwise the SDK default | For metrics, the Prometheus translation maps it to the `instance` label, which must stay so replicas' series do not collide. Only ancillary resource attributes belong in `target_info`. |
 | `deployment.environment.name` | `OTEL_RESOURCE_ATTRIBUTES`, set by the deployment | Uses the current semconv key. |
 
 Tenant never goes in the resource.
@@ -152,13 +152,18 @@ Tenant never goes in the resource.
 - **Never put these in attributes, events or logs:** payload values of events, commands, queries or read models; `[PII]` or `[NotAudited]` values; identity subject, name or email; tokens; exception messages from non-Cratis code. Record `exception.type` only.
 - **Event source id is off by default.** It can be enabled in code, either hashed (HMAC with a deployment key) or raw.
 - **.NET logs** classify `EventSourceId`, `Partition` and identity values with `Microsoft.Extensions.Compliance` data classification and enable redaction (a hashing redactor) in production. Other languages use the equivalent in their logging pipeline.
+- **Redact before formatting.** Redaction applies to the structured values before a message is formatted. A formatted log message is not a redacted log: once a sensitive value has been interpolated into the message text, no later processor can reliably remove it.
 
 **D8. Defaults**
 
 - **Instrumentation is always on.** It is free when no listener is attached, and there is no Cratis "enable telemetry" switch. The JVM property stays, defaulting to true.
 - **Export is opt-in through configuration:** nothing leaves the process unless an OTLP endpoint is set. `OTEL_SDK_DISABLED` is honoured.
 - **Templates and Cratis-operated services call the setup by default.**
-- **Sampling** defaults to parentbased_always_on. Production sets `OTEL_TRACES_SAMPLER=parentbased_traceidratio`.
+- **Sampling** defaults to `parentbased_always_on`. Production sets both `OTEL_TRACES_SAMPLER=parentbased_traceidratio` and an explicit `OTEL_TRACES_SAMPLER_ARG`, chosen from a measured span rate and budgeted against the trace backend.
+  - A ratio is not a rate limit: the exported volume grows with traffic.
+  - Parent-based sampling inherits the decision of a sampled upstream caller, so the effective rate can be higher than the ratio.
+  - Orleans and other framework-internal sources stay disabled unless their volume is measured and budgeted.
+- **Telemetry budget.** Any change that raises telemetry volume (sampling settings, new instrumentation, new scrape targets) cites a measured rate and the backend capacity it fits in.
 
 **D9. What each signal is for**
 
@@ -183,6 +188,15 @@ Tenant never goes in the resource.
 - Storing the append's W3C trace context with events needs its own Chronicle decision record (D5).
 - Production gets a trace backend (Tempo), and the Workbench links events and failed partitions to their trace (D10).
 - Names and attributes are public API, so later changes to them follow the rename rule in D1.
+
+## Amendment 1: production rollout findings
+
+On 2026-10-06 the shared production cluster received about 4,000 spans/s, and 10% collector sampling OOM-killed Tempo and the OpenTelemetry collector ([Cratis/Infrastructure#98](https://github.com/Cratis/Infrastructure/issues/98), [Cratis/Infrastructure#131](https://github.com/Cratis/Infrastructure/issues/131)). The rollout also showed errors in the original text. This amendment ([Architecture#37](https://github.com/Cratis/Architecture/issues/37)) corrects them in place:
+
+- **D1:** the SDK overflow attribute is `otel.metric.overflow=true`, not `_other`.
+- **D2:** `service.instance.id` stays as the Prometheus `instance` label for metrics; only ancillary resource attributes go to `target_info`.
+- **D7:** redaction happens before formatting.
+- **D8:** production sets an explicit, measured sampler argument; framework-internal sources stay off unless budgeted; volume-raising changes cite a measured rate (telemetry budget).
 
 ## Where it is followed
 
