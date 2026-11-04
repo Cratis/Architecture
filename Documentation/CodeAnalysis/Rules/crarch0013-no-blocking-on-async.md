@@ -18,4 +18,4 @@ Blocking asynchronous calls can cause deadlocks and reliability issues.
 
 ## How to resolve
 
-Use `await` instead of blocking APIs on tasks.
+Use `await` instead of blocking APIs on tasks. Keep the containing operation task-returning so its caller can await it, and carry that asynchronous flow through callers that need the result. See [CRARCH0012](crarch0012-async-void-forbidden.md) for return-type guidance and its event-handler exception.

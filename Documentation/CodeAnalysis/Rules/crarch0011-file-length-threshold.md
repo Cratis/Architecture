@@ -10,7 +10,7 @@ description: "CRARCH0011 flags files above a length threshold, because very larg
 
 ## What it checks
 
-Very large files are difficult to understand and maintain.
+The text-based counter trims each line, skips blank lines and lines beginning with `//`, and skips a line beginning with `/*` through the first line containing `*/`. Code on skipped lines is not counted; code before an inline comment still counts. It reports only when the resulting count is greater than 400. Very large files are difficult to understand and maintain.
 
 ## Diagnostic message
 
