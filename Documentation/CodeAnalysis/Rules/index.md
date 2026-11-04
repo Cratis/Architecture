@@ -4,7 +4,7 @@ description: "Reference of every CRARCH diagnostic in Cratis.Architecture.CodeAn
 
 # Rule Reference
 
-This reference lists all diagnostics in `Cratis.Architecture.CodeAnalysis`.
+Find the diagnostic ID reported by your editor or build in the table below. Open its rule page to compare the diagnostic message with what it checks, then follow the resolution guidance. The table lists diagnostics in `Cratis.Architecture.CodeAnalysis`.
 
 | Rule | Title | Severity | Description |
 |---|---|---|---|
