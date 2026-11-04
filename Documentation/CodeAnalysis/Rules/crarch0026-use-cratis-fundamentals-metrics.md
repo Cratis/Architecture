@@ -18,4 +18,4 @@ Metrics should use Cratis Fundamentals abstractions instead of raw instrument cr
 
 ## How to resolve
 
-Use `IMeter<T>`, `IMeterScope<T>`, and generated metric methods instead of creating meter instruments directly.
+Use `IMeter<T>`, `IMeterScope<T>`, and generated metric methods instead of creating meter instruments directly. Use the typed meter or scope for the reported instrument creation; helper methods may be source generated, but generation is optional. The [C# metrics setup](https://github.com/Cratis/Fundamentals/blob/852fba703f79bef47b9722fc312f6e62b2cf8006/Documentation/csharp/metrics/index.md) explains package references and dependency-injection registration.
