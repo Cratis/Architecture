@@ -8,11 +8,11 @@ Cratis Architecture ships Roslyn analyzers that enforce architectural and coding
 
 ## Goals
 
-- Keep architectural intent enforceable
-- Surface violations as early as possible
-- Give developers and agents clear, actionable feedback
+When a CRARCH diagnostic appears in your editor or build output, use its ID to find the matching rule. Compare the diagnostic message with what the rule checks, then follow its resolution guidance to decide what to change.
 
 ## Rules Overview
+
+Use the [rule reference](Rules/index.md) to look up a known diagnostic ID and open its rule page. To browse the conventions first, scan the titles, severities and descriptions in the summary below.
 
 | Rule ID | Title | Severity | Description |
 |---|---|---|---|

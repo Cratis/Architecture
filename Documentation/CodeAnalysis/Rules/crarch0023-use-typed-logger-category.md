@@ -18,4 +18,4 @@ Typed logger categories align log events with the producing type.
 
 ## How to resolve
 
-Inject `ILogger<TContainingType>` instead of non-generic logger forms.
+Inject `ILogger<TContainingType>` instead of non-generic logger forms. If the injected logger is already generic but categorized under another type, change its category to the containing type as well.

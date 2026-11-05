@@ -10,7 +10,7 @@ description: "CRARCH0019 flags the Async postfix on method names unless a synchr
 
 ## What it checks
 
-Method names should avoid unnecessary suffixes unless sync/async pairs exist.
+When a method is analyzed, its name is checked for a case-sensitive `Async` suffix. The suffix is allowed when the same type has an ordinary method with the unsuffixed name and a non-task-like return type; the counterpart's parameter list need not match.
 
 ## Diagnostic message
 

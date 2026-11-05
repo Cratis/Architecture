@@ -10,7 +10,7 @@ description: "CRARCH0006 requires logging through source-generated LoggerMessage
 
 ## What it checks
 
-Structured, source-generated logging ensures consistency and better performance.
+The rule reports direct `ILogger.Log*` calls. Structured, source-generated logging ensures consistency and better performance.
 
 ## Diagnostic message
 
@@ -18,4 +18,4 @@ Structured, source-generated logging ensures consistency and better performance.
 
 ## How to resolve
 
-Define and use `[LoggerMessage]` methods in `*LogMessages` classes instead of direct log calls.
+Define and use `[LoggerMessage]` methods in `*LogMessages` classes instead of direct log calls. Follow [CRARCH0024](crarch0024-loggermessage-container-conventions.md) for the container requirements.

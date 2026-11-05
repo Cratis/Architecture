@@ -18,4 +18,4 @@ Too many dependencies indicate excessive responsibility in one type.
 
 ## How to resolve
 
-Refactor to reduce constructor dependencies to seven or fewer.
+Refactor to reduce constructor dependencies to seven or fewer. Separate work that needs different dependencies into focused types, or introduce a more focused abstraction for one cohesive responsibility. Recheck each resulting constructor against the same limit.

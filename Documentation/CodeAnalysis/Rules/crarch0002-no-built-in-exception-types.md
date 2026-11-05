@@ -18,4 +18,4 @@ Throwing framework exceptions hides domain intent.
 
 ## How to resolve
 
-Replace built-in exceptions with custom domain exceptions that describe the business error.
+Replace built-in exceptions with custom domain exceptions that describe the business error. Identify the business failure at the throw site and choose a custom exception named for it, rather than substituting another generic framework exception. [CRARCH0001](crarch0001-exception-type-naming.md) describes the naming convention.
