@@ -1,5 +1,5 @@
 ---
-description: "CRARCH0011 flags files above a length threshold, because very large files are difficult to understand and maintain."
+description: "CRARCH0011 reports C# files above the length threshold and explains how to address oversized files that are hard to understand and maintain."
 ---
 
 # CRARCH0011 File length threshold

@@ -1,5 +1,5 @@
 ---
-description: "CRARCH0003 requires class names to describe domain concepts rather than technical roles through postfixes."
+description: "CRARCH0003 checks C# class names for technical postfixes rather than domain concepts, with the warning message and guidance for renaming."
 ---
 
 # CRARCH0003 No postfixes on class names

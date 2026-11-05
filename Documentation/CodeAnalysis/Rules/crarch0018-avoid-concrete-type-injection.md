@@ -1,5 +1,5 @@
 ---
-description: "CRARCH0018 asks constructors to depend on abstractions rather than concrete types, for looser coupling."
+description: "CRARCH0018 flags concrete C# types injected into constructors and explains how depending on abstractions instead reduces implementation coupling."
 ---
 
 # CRARCH0018 Avoid concrete type injection

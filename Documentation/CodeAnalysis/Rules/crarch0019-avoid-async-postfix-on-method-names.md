@@ -1,5 +1,5 @@
 ---
-description: "CRARCH0019 flags the Async postfix on method names unless a synchronous and asynchronous pair makes it necessary."
+description: "CRARCH0019 flags the Async postfix on C# methods and describes the naming exception for paired synchronous and asynchronous implementations."
 ---
 
 # CRARCH0019 Avoid Async postfix on method names

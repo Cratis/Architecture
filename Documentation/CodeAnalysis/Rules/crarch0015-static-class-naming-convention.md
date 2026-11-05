@@ -1,5 +1,5 @@
 ---
-description: "CRARCH0015 requires static utility classes to follow strict naming conventions that improve discoverability."
+description: "CRARCH0015 checks C# static utility class names against naming conventions and provides the diagnostic message and guidance for renaming."
 ---
 
 # CRARCH0015 Static class naming convention

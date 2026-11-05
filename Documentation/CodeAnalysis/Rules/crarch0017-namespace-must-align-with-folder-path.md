@@ -1,5 +1,5 @@
 ---
-description: "CRARCH0017 requires a type's namespace to align with its folder path, improving navigability and consistency."
+description: "CRARCH0017 checks that C# namespaces align with folder paths and explains how to resolve mismatches so types remain easy to navigate."
 ---
 
 # CRARCH0017 Namespace must align with folder path

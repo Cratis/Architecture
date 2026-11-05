@@ -1,5 +1,5 @@
 ---
-description: "CRARCH0025 asks tracing to go through Cratis Fundamentals abstractions rather than raw tracing APIs, for consistency."
+description: "CRARCH0025 flags direct C# ActivitySource.StartActivity calls and directs tracing through Cratis Fundamentals abstractions for consistent usage."
 ---
 
 # CRARCH0025 Use Cratis Fundamentals traces

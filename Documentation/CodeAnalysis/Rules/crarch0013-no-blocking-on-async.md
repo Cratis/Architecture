@@ -1,5 +1,5 @@
 ---
-description: "CRARCH0013 flags blocking on asynchronous calls, which can cause deadlocks and reliability issues."
+description: "CRARCH0013 flags blocking on asynchronous C# calls and explains how to resolve the warning to avoid deadlocks and reliability problems."
 ---
 
 # CRARCH0013 No blocking on async

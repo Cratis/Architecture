@@ -1,5 +1,5 @@
 ---
-description: "CRARCH0016 flags interfaces without implementations, because speculative abstractions add needless complexity."
+description: "CRARCH0016 flags C# interfaces without implementations and explains how to resolve unused abstractions that add speculative complexity."
 ---
 
 # CRARCH0016 Unused interfaces

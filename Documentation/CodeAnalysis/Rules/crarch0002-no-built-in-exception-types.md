@@ -1,5 +1,5 @@
 ---
-description: "CRARCH0002 flags throwing built-in framework exception types, which hide domain intent, and asks for domain exceptions."
+description: "CRARCH0002 flags built-in C# exception types that hide domain intent and explains how domain-specific exceptions resolve the diagnostic."
 ---
 
 # CRARCH0002 No built-in exception types

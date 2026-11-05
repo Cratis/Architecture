@@ -1,5 +1,5 @@
 ---
-description: "Cratis Architecture code analysis: the Roslyn analyzer goals and a table of all CRARCH rules with their severities."
+description: "Cratis Architecture code analysis lists the Roslyn analyzer goals, CRARCH rule severities and diagnostic links for resolving C# convention violations."
 ---
 
 # Code Analysis

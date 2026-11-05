@@ -1,5 +1,5 @@
 ---
-description: "CRARCH0023 requires typed logger categories so that log events align with the type that produced them."
+description: "CRARCH0023 checks C# logger injection for typed categories and explains how ILogger<T> ties each log event to the type that produced it."
 ---
 
 # CRARCH0023 Use typed logger category
