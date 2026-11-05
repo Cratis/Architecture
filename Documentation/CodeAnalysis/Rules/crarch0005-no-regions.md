@@ -1,5 +1,5 @@
 ---
-description: "CRARCH0005 flags #region directives, which usually mean a file needs better separation of responsibilities."
+description: "CRARCH0005 flags #region directives in C# files and explains why separating responsibilities is preferable to grouping code behind regions."
 ---
 
 # CRARCH0005 No regions

@@ -1,5 +1,5 @@
 ---
-description: "CRARCH0001 requires exception types to use domain terminology and not end with the generic Exception suffix."
+description: "CRARCH0001 checks C# exception names for domain terminology rather than an Exception suffix, with the diagnostic message and resolution guidance."
 ---
 
 # CRARCH0001 Exception type naming

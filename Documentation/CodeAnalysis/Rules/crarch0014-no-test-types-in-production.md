@@ -1,5 +1,5 @@
 ---
-description: "CRARCH0014 reports an error when production assemblies depend on test-only types or infrastructure."
+description: "CRARCH0014 reports C# production assemblies that depend on test-only types or infrastructure, with the error message and resolution guidance."
 ---
 
 # CRARCH0014 No test types in production

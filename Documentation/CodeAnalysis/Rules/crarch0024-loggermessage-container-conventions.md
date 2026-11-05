@@ -1,5 +1,5 @@
 ---
-description: "CRARCH0024 requires LoggerMessage methods to live in convention-based containers, so logging stays consistent."
+description: "CRARCH0024 checks C# LoggerMessage containers for internal static partial classes named *LogMessages, with diagnostic and resolution guidance."
 ---
 
 # CRARCH0024 LoggerMessage container conventions

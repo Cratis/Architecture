@@ -1,5 +1,5 @@
 ---
-description: "CRARCH0008 prefers pattern-matching null checks with is null over equality operators, for one consistent style."
+description: "CRARCH0008 checks C# null comparisons for pattern matching with is null instead of equality operators, with diagnostic and resolution details."
 ---
 
 # CRARCH0008 Use is null checks

@@ -1,5 +1,5 @@
 ---
-description: "CRARCH0004 keeps namespace paths domain-oriented by flagging any namespace that contains a Features segment."
+description: "CRARCH0004 flags a Features segment in C# namespace paths and explains how domain-oriented namespaces resolve this architecture warning."
 ---
 
 # CRARCH0004 No Features in namespace

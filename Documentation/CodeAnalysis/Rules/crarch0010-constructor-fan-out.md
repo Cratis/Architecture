@@ -1,5 +1,5 @@
 ---
-description: "CRARCH0010 flags constructor fan-out: a type with too many dependencies is carrying too much responsibility."
+description: "CRARCH0010 flags excessive C# constructor dependencies as a sign of too much responsibility and gives guidance for resolving the warning."
 ---
 
 # CRARCH0010 Constructor fan-out

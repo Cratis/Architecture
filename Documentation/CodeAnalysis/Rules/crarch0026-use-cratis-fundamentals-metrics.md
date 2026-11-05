@@ -1,5 +1,5 @@
 ---
-description: "CRARCH0026 asks metrics to use Cratis Fundamentals abstractions instead of creating raw instruments directly."
+description: "CRARCH0026 flags raw C# Meter instrument creation and explains how Cratis Fundamentals metric abstractions provide a consistent alternative."
 ---
 
 # CRARCH0026 Use Cratis Fundamentals metrics
