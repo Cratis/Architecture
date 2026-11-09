@@ -13,6 +13,7 @@ public static class StringExtensions
 }
 """);
 
-    [Fact] void should_not_report_diagnostic() =>
+    [Fact]
+    void should_not_report_diagnostic() =>
         _diagnostics.Any(_ => _.Id == "CRARCH0015").ShouldBeFalse();
 }

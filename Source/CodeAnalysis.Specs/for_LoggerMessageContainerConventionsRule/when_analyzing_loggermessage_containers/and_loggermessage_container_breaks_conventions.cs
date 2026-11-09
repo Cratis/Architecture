@@ -25,6 +25,7 @@ public class LogMessages
 }
 """);
 
-    [Fact] void should_report_diagnostic() =>
+    [Fact]
+    void should_report_diagnostic() =>
         _diagnostics.Any(_ => _.Id == "CRARCH0024").ShouldBeTrue();
 }

@@ -22,6 +22,7 @@ class Sample(Microsoft.Extensions.Logging.ILogger logger)
 }
 """);
 
-    [Fact] void should_report_diagnostic() =>
+    [Fact]
+    void should_report_diagnostic() =>
         _diagnostics.Any(_ => _.Id == "CRARCH0006").ShouldBeTrue();
 }

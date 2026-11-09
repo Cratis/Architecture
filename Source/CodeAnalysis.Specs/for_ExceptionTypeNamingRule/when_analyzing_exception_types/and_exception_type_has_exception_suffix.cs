@@ -15,6 +15,7 @@ class AuthorNotFoundException : Exception
 }
 """);
 
-    [Fact] void should_report_diagnostic() =>
+    [Fact]
+    void should_report_diagnostic() =>
         _diagnostics.Any(_ => _.Id == "CRARCH0001").ShouldBeTrue();
 }

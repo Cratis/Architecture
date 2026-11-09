@@ -25,6 +25,7 @@ internal static partial class SampleLogMessages
 }
 """);
 
-    [Fact] void should_not_report_diagnostic() =>
+    [Fact]
+    void should_not_report_diagnostic() =>
         _diagnostics.Any(_ => _.Id == "CRARCH0024").ShouldBeFalse();
 }
