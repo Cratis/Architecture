@@ -25,8 +25,7 @@
 
     <PropertyGroup>
         <IsPackaging Condition="'$(IsPackaging)' == ''">false</IsPackaging>
-        <TargetFramework Condition="'$(IsPackaging)' != 'true' and '$(TargetFramework)' == '' and '$(TargetFrameworks)' == ''">net10.0</TargetFramework>
-        <TargetFrameworks Condition="'$(IsPackaging)' == 'true' and '$(TargetFramework)' == ''">net8.0;net9.0;net10.0</TargetFrameworks>
+        <TargetFrameworks Condition="'$(TargetFramework)' == '' and '$(TargetFrameworks)' == ''">net10.0;net11.0</TargetFrameworks>
     </PropertyGroup>
 
     <ItemGroup>
