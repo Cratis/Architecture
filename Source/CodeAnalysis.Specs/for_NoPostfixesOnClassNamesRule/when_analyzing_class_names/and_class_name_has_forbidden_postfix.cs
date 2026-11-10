@@ -13,6 +13,7 @@ class AuthorService
 }
 """);
 
-    [Fact] void should_report_diagnostic() =>
+    [Fact]
+    void should_report_diagnostic() =>
         _diagnostics.Any(_ => _.Id == "CRARCH0003").ShouldBeTrue();
 }

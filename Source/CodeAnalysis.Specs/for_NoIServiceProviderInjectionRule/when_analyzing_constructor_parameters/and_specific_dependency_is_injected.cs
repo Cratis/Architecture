@@ -15,6 +15,7 @@ class Sample(IDependency dependency)
 }
 """);
 
-    [Fact] void should_not_report_diagnostic() =>
+    [Fact]
+    void should_not_report_diagnostic() =>
         _diagnostics.Any(_ => _.Id == "CRARCH0007").ShouldBeFalse();
 }

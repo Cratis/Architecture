@@ -13,6 +13,7 @@ public static class Utility
 }
 """);
 
-    [Fact] void should_report_diagnostic() =>
+    [Fact]
+    void should_report_diagnostic() =>
         _diagnostics.Any(_ => _.Id == "CRARCH0015").ShouldBeTrue();
 }
