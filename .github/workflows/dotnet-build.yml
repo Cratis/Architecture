@@ -39,7 +39,6 @@ jobs:
           dotnet-version: |
             ${{ env.DOTNET10_VERSION }}
             ${{ env.DOTNET11_VERSION }}
-          dotnet-quality: preview
 
       - name: Cache NuGet packages
         uses: actions/cache@v4
@@ -73,7 +72,6 @@ jobs:
           dotnet-version: |
             ${{ env.DOTNET10_VERSION }}
             ${{ env.DOTNET11_VERSION }}
-          dotnet-quality: preview
 
       - uses: actions/cache@v4
         id: dotnet-output
