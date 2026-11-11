@@ -31,16 +31,12 @@ public static class NoBlockingOnAsyncRule
     /// <param name="method">The <see cref="IMethodSymbol"/> of the invoked method.</param>
     public static void AnalyzeInvocation(SyntaxNodeAnalysisContext context, InvocationExpressionSyntax invocation, IMethodSymbol method)
     {
-        if (method.Name == "Wait" && method.Parameters.Length == 0)
+        if (IsParameterlessWait(method))
         {
             context.ReportDiagnostic(Diagnostic.Create(Descriptor, invocation.GetLocation()));
         }
 
-        if (method.Name == "GetResult" &&
-            method.ContainingType?.Name == "TaskAwaiter" &&
-            invocation.Expression is MemberAccessExpressionSyntax { Expression: InvocationExpressionSyntax awaiterInvocation } &&
-            context.SemanticModel.GetSymbolInfo(awaiterInvocation, context.CancellationToken).Symbol is IMethodSymbol awaiterMethod &&
-            awaiterMethod.Name == "GetAwaiter")
+        if (IsTaskAwaiterGetResult(method) && IsCalledOnGetAwaiter(context, invocation))
         {
             context.ReportDiagnostic(Diagnostic.Create(Descriptor, invocation.GetLocation()));
         }
@@ -64,4 +60,14 @@ public static class NoBlockingOnAsyncRule
             context.ReportDiagnostic(Diagnostic.Create(Descriptor, memberAccess.GetLocation()));
         }
     }
+
+    static bool IsParameterlessWait(IMethodSymbol method) =>
+        method.Name == "Wait" && method.Parameters.Length == 0;
+
+    static bool IsTaskAwaiterGetResult(IMethodSymbol method) =>
+        method.Name == "GetResult" && method.ContainingType?.Name == "TaskAwaiter";
+
+    static bool IsCalledOnGetAwaiter(SyntaxNodeAnalysisContext context, InvocationExpressionSyntax invocation) =>
+        invocation.Expression is MemberAccessExpressionSyntax { Expression: InvocationExpressionSyntax awaiterInvocation } &&
+        context.SemanticModel.GetSymbolInfo(awaiterInvocation, context.CancellationToken).Symbol is IMethodSymbol { Name: "GetAwaiter" };
 }

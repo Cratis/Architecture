@@ -31,15 +31,17 @@ public static class LoggerMessageContainerConventionsRule
     /// <param name="type">The <see cref="INamedTypeSymbol"/> to analyze.</param>
     public static void Analyze(SymbolAnalysisContext context, INamedTypeSymbol type)
     {
-        if (HasLoggerMessageMethods(type) &&
-            (!type.Name.EndsWith("LogMessages", StringComparison.Ordinal) ||
-             !type.IsStatic ||
-             type.DeclaredAccessibility != Accessibility.Internal ||
-             !IsPartialType(type)))
+        if (HasLoggerMessageMethods(type) && !FollowsContainerConventions(type))
         {
             context.ReportDiagnostic(Diagnostic.Create(Descriptor, type.Locations.FirstOrDefault(), type.Name));
         }
     }
+
+    static bool FollowsContainerConventions(INamedTypeSymbol type)
+        => type.Name.EndsWith("LogMessages", StringComparison.Ordinal) &&
+           type.IsStatic &&
+           type.DeclaredAccessibility == Accessibility.Internal &&
+           IsPartialType(type);
 
     static bool HasLoggerMessageMethods(INamedTypeSymbol type)
         => type.GetMembers()
