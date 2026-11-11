@@ -28,8 +28,8 @@ public static class UnusedInterfacesRule
     /// <param name="startContext">The <see cref="CompilationStartAnalysisContext"/> used to register compilation-scoped analysis actions.</param>
     public static void Register(CompilationStartAnalysisContext startContext)
     {
-        var interfaceSymbols = new HashSet<INamedTypeSymbol>(SymbolEqualityComparer.Default);
-        var implementedInterfaces = new HashSet<INamedTypeSymbol>(SymbolEqualityComparer.Default);
+        HashSet<INamedTypeSymbol> interfaceSymbols = [with(SymbolEqualityComparer.Default)];
+        HashSet<INamedTypeSymbol> implementedInterfaces = [with(SymbolEqualityComparer.Default)];
 
         startContext.RegisterSymbolAction(symbolContext =>
         {
