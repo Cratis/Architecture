@@ -31,24 +31,24 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Setup .Net
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v6
         with:
           dotnet-version: |
             ${{ env.DOTNET10_VERSION }}
             ${{ env.DOTNET11_VERSION }}
 
       - name: Cache NuGet packages
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: ~/.nuget/packages
           key: nuget-${{ runner.os }}-${{ hashFiles('**/*.csproj', '**/Directory.*.props', '**/Directory.*.targets') }}
           restore-keys: |
             nuget-${{ runner.os }}-
 
-      - uses: actions/cache@v4
+      - uses: actions/cache@v6
         id: dotnet-output
         with:
           path: ./**/bin
@@ -64,16 +64,16 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Setup .Net
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v6
         with:
           dotnet-version: |
             ${{ env.DOTNET10_VERSION }}
             ${{ env.DOTNET11_VERSION }}
 
-      - uses: actions/cache@v4
+      - uses: actions/cache@v6
         id: dotnet-output
         with:
           path: ./**/bin
